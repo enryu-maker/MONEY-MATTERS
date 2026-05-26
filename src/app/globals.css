@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-primary: #caa55a;
+  --color-primary-foreground: #000000;
+  
+  --color-muted: rgba(255, 255, 255, 0.05);
+  --color-muted-foreground: #a1a1aa;
+  
+  --color-input: rgba(255, 255, 255, 0.1);
+  --color-accent: rgba(255, 255, 255, 0.05);
+  
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  
+  --grad-gold: linear-gradient(135deg, #f4e2b8 0%, #caa55a 100%);
+  --grad-sunset: linear-gradient(135deg, #caa55a, #8e6d32);
+  --shadow-gold: 0 10px 40px -10px rgba(202, 165, 90, 0.3);
+  --shadow-luxe: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+@utility text-gradient-gold {
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@utility glass-strong {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@utility hairline {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
