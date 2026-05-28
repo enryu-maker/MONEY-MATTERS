@@ -1,61 +1,42 @@
 "use client";
-import { motion } from "framer-motion";
-import { SectionHeader } from "./Services";
 
-const items = [
-    {
-        q: "Money Matters secured terms I genuinely didn't believe were possible. Calm, precise, and astonishingly well-connected.",
-        a: "K. Rahman",
-        r: "Investor · Downtown Dubai",
-    },
-    {
-        q: "From first call to disbursement in under three weeks. As a non-resident, the white-glove handling made all the difference.",
-        a: "S. Iyer",
-        r: "Non-resident buyer · London",
-    },
-    {
-        q: "They refinanced a portfolio of four properties for us and trimmed nearly a full percentage point off the blended rate.",
-        a: "A. Al-Mansouri",
-        r: "Corporate client · Business Bay",
-    },
-];
+import { motion } from "framer-motion";
+import { SectionHeader } from "./SectionHeader";
+import { testimonials } from "@/lib/site-data";
 
 export function Testimonials() {
-    return (
-        <section className="relative px-6 py-32">
-            <div className="mx-auto max-w-7xl">
-                <SectionHeader
-                    eyebrow="We love them"
-                    title={
-                        <>
-                            What our clients <em className="text-gradient-gold not-italic">have to say.</em>
-                        </>
-                    }
-                />
-                <div className="mt-16 grid gap-6 md:grid-cols-3">
-                    {items.map((t, i) => (
-                        <motion.figure
-                            key={i}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                            className="group relative overflow-hidden rounded-3xl glass p-8 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]"
-                        >
-                            <div className="font-display text-5xl leading-none text-primary/40">&quot;</div>
-                            <blockquote className="mt-4 text-base leading-relaxed text-foreground/90">
-                                {t.q}
-                            </blockquote>
-                            <figcaption className="mt-8 border-t hairline pt-5">
-                                <div className="font-display text-lg">{t.a}</div>
-                                <div className="mt-0.5 text-xs uppercase tracking-widest text-muted-foreground">
-                                    {t.r}
-                                </div>
-                            </figcaption>
-                        </motion.figure>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+  const featured = testimonials.slice(0, 3);
+
+  return (
+    <section className="section-pad section-bone">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeader
+          eyebrow="We love them"
+          title="What our clients have to say"
+          sub="Verified Google reviews from clients across the UAE and overseas."
+        />
+
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {featured.map((t, i) => (
+            <motion.blockquote
+              key={t.name}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="flex flex-col rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"
+            >
+              <p className="flex-1 text-sm leading-relaxed text-foreground/90">&ldquo;{t.quote}&rdquo;</p>
+              <footer className="mt-6 border-t hairline pt-5">
+                <cite className="not-italic">
+                  <div className="font-display font-semibold">{t.name}</div>
+                  <div className="mt-0.5 text-xs text-muted-foreground">{t.source}</div>
+                </cite>
+              </footer>
+            </motion.blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }

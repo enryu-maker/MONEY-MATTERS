@@ -3,63 +3,115 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
-  --color-primary: #caa55a;
-  --color-primary-foreground: #000000;
-  
-  --color-muted: rgba(255, 255, 255, 0.05);
-  --color-muted-foreground: #a1a1aa;
-  
-  --color-input: rgba(255, 255, 255, 0.1);
-  --color-accent: rgba(255, 255, 255, 0.05);
-  
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --color-card: var(--card);
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-urbanist), system-ui, sans-serif;
 }
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  
-  --grad-gold: linear-gradient(135deg, #f4e2b8 0%, #caa55a 100%);
-  --grad-sunset: linear-gradient(135deg, #caa55a, #8e6d32);
-  --shadow-gold: 0 10px 40px -10px rgba(202, 165, 90, 0.3);
-  --shadow-luxe: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  --background: oklch(99% 0.003 60);
+  --foreground: oklch(13% 0.01 30);
+  --ink: oklch(13% 0.01 30);
+  --ink-soft: oklch(32% 0.01 30);
+  --bone: oklch(96.5% 0.008 60);
+
+  --primary: oklch(52% 0.21 26);
+  --primary-foreground: oklch(99% 0.003 60);
+  --crimson-deep: oklch(40% 0.18 26);
+
+  --card: oklch(100% 0 0);
+  --muted: oklch(96% 0.005 60);
+  --muted-foreground: oklch(45% 0.01 30);
+  --secondary: var(--bone);
+  --border: oklch(90% 0.005 60);
+  --input: oklch(92% 0.005 60);
+
+  --shadow-soft: 0 4px 24px -6px oklch(13% 0.01 30 / 0.08);
+  --shadow-card: 0 12px 40px -12px oklch(13% 0.01 30 / 0.12);
+  --shadow-cta: 0 16px 40px -12px oklch(52% 0.21 26 / 0.35);
 }
 
-@utility text-gradient-gold {
-  background: var(--grad-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-@utility glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-@utility glass-strong {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
 }
 
 @utility hairline {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--border);
 }
 
 @utility font-display {
   font-family: var(--font-display);
 }
 
+@utility section-pad {
+  padding-inline: 1.5rem;
+  padding-block: 5.5rem;
+
+  @media (width >= 48rem) {
+    padding-block: 6.5rem;
+  }
+}
+
+@utility section-bone {
+  background-color: var(--bone);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+/* Mortgage calculator */
+.calc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.5rem;
+  width: 100%;
+  border-radius: 9999px;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-top: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--background);
+  background: var(--primary);
+  box-shadow: 0 2px 8px oklch(13% 0.01 30 / 0.15);
+}
+
+.calc-range::-moz-range-thumb {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  border: 2px solid var(--background);
+  background: var(--primary);
+}
+
+.calc-input {
+  font-size: 1.125rem;
+  line-height: 1.4;
 }
