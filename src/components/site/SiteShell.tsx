@@ -13,7 +13,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <>
       <TopBar />
       <Navbar open={mobileNavOpen} onOpenChange={setMobileNavOpen} />
-      <div className="flex min-h-svh flex-col max-lg:pb-[4.5rem]">{children}</div>
+      <div className="flex min-h-svh flex-col">{children}</div>
       <Footer />
       <ChatButton hidden={mobileNavOpen} />
     </>

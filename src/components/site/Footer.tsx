@@ -3,8 +3,9 @@ import { Logo } from "./Logo";
 import { MessageCircle, Phone } from "lucide-react";
 import { aboutNav, site } from "@/lib/site-data";
 
-const nav = [
-  { label: "Home", href: "/" },
+const homeLink = { label: "Home", href: "/" } as const;
+
+const navigateLinks = [
   { label: "Services", href: "/services" },
   { label: "Calculator", href: "/calculator" },
   { label: "FAQ's", href: "/faq" },
@@ -13,102 +14,161 @@ const nav = [
 
 export function Footer() {
   return (
-    <footer className="border-t hairline bg-background">
-      <div className="section-pad !pb-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 md:grid-cols-12">
-            <div className="md:col-span-5">
-              <Logo size="footer" />
-              <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                Boutique mortgage consultancy affiliated with major banks across the UAE. Licensed
-                under the Dubai Economy Department since {site.founded}.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                <a
-                  href={`https://wa.me/${site.phoneTel.replace("+", "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-medium text-white"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  WhatsApp
-                </a>
-                <a
-                  href={`tel:${site.phoneTel}`}
-                  className="inline-flex items-center gap-2 rounded-full border hairline px-4 py-2 text-sm font-medium"
-                >
-                  <Phone className="h-4 w-4 text-primary" />
-                  Book a call
-                </a>
-              </div>
+    <footer className="mt-auto border-t hairline bg-background">
+      <div className="mx-auto max-w-7xl px-4 pb-[max(6rem,calc(4.5rem+env(safe-area-inset-bottom)))] pt-10 md:px-6 md:pb-10 md:pt-14 lg:pb-10">
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-10">
+          {/* Brand */}
+          <div className="lg:col-span-5">
+            <Logo size="footer" />
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
+              Boutique mortgage consultancy affiliated with major banks across the UAE. Licensed
+              under the Dubai Economy Department since {site.founded}.
+            </p>
+            <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
+              <a
+                href={`https://wa.me/${site.phoneTel.replace("+", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-medium text-white sm:justify-start"
+              >
+                <MessageCircle className="h-4 w-4 shrink-0" />
+                WhatsApp
+              </a>
+              <a
+                href={`tel:${site.phoneTel}`}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border hairline bg-card px-5 py-2.5 text-sm font-medium sm:justify-start"
+              >
+                <Phone className="h-4 w-4 shrink-0 text-primary" />
+                Book a call
+              </a>
             </div>
+          </div>
 
-            <div className="grid grid-cols-2 gap-8 md:col-span-7">
+          {/* Links + contact */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-7 lg:gap-10">
+            <div className="grid grid-cols-2 gap-6 sm:col-span-1">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-foreground">Navigate</p>
-                <ul className="mt-4 space-y-2">
-                  {nav.map((l) => (
+                <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
+                  Navigate
+                </p>
+                <ul className="mt-4 space-y-2.5">
+                  {navigateLinks.map((l) => (
                     <li key={l.label}>
-                      <Link href={l.href} className="text-sm text-muted-foreground hover:text-primary">
+                      <Link
+                        href={l.href}
+                        className="inline-flex min-h-9 items-center text-sm text-muted-foreground hover:text-primary"
+                      >
                         {l.label}
                       </Link>
                     </li>
                   ))}
-                  <li className="pt-2">
-                    <p className="text-sm font-medium text-foreground">About</p>
-                    <ul className="mt-2 space-y-2 pl-0">
-                      {aboutNav.map((l) => (
-                        <li key={l.href}>
-                          <Link
-                            href={l.href}
-                            className="text-sm text-muted-foreground hover:text-primary"
-                          >
-                            {l.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
                 </ul>
               </div>
+
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-foreground">Contact</p>
-                <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+                <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
+                  Home
+                </p>
+                <ul className="mt-4 space-y-2.5">
                   <li>
-                    {site.address}. {site.poBox}
+                    <Link
+                      href={homeLink.href}
+                      className="inline-flex min-h-9 items-center text-sm font-medium text-foreground hover:text-primary"
+                    >
+                      {homeLink.label}
+                    </Link>
                   </li>
-                  <li>
-                    <a href={`tel:${site.phoneTel}`} className="hover:text-primary">
-                      {site.phone}
-                    </a>
-                  </li>
-                  <li>
-                    <a href={`mailto:${site.email}`} className="hover:text-primary">
-                      {site.email}
-                    </a>
-                  </li>
+                </ul>
+                <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-foreground">
+                  About
+                </p>
+                <ul className="mt-3 space-y-2.5">
+                  {aboutNav.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="inline-flex min-h-9 items-center text-sm text-muted-foreground hover:text-primary"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
-          </div>
 
-          <div className="mt-12 flex flex-col gap-3 border-t hairline pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} {site.name} Mortgage Brokers · All rights reserved</p>
-            <div className="flex gap-4">
-              <a href={site.social.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
+                Contact
+              </p>
+              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <li className="max-w-xs break-words">
+                  {site.address}
+                  <br />
+                  {site.poBox}
+                </li>
+                <li>
+                  <a
+                    href={`tel:${site.phoneTel}`}
+                    className="inline-flex min-h-9 items-center font-medium text-foreground hover:text-primary"
+                  >
+                    {site.phone}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="inline-flex min-h-9 items-center break-all hover:text-primary"
+                  >
+                    {site.email}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-4 border-t hairline pt-8 text-xs text-muted-foreground md:mt-12">
+          <p className="leading-relaxed">
+            © {new Date().getFullYear()} {site.name} Mortgage Brokers · All rights reserved
+          </p>
+          <ul className="flex flex-wrap gap-x-4 gap-y-2">
+            <li>
+              <a
+                href={site.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-9 items-center hover:text-primary"
+              >
                 Facebook
               </a>
-              <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+            </li>
+            <li>
+              <a
+                href={site.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-9 items-center hover:text-primary"
+              >
                 Instagram
               </a>
-              <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+            </li>
+            <li>
+              <a
+                href={site.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-9 items-center hover:text-primary"
+              >
                 LinkedIn
               </a>
-              <a href={site.privacyUrl} className="hover:text-primary">
+            </li>
+            <li>
+              <a href={site.privacyUrl} className="inline-flex min-h-9 items-center hover:text-primary">
                 Privacy Policy
               </a>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>
