@@ -77,11 +77,16 @@ export function Hero() {
             { v: String(site.founded), l: "Serving UAE since" },
             { v: "DED", l: "Licensed brokers" },
             { v: "Major", l: "Bank partners" },
-          ].map((s) => (
-            <div key={s.l}>
+          ].map((s, i) => (
+            <motion.div
+              key={s.l}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.38 + i * 0.08 }}
+            >
               <div className="font-display text-2xl font-semibold text-white md:text-3xl">{s.v}</div>
               <div className="mt-1 text-xs text-white/65">{s.l}</div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>

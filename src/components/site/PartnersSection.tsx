@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
 import { affiliatePartners, bankPartners } from "@/lib/site-data";
+import { Stagger, StaggerItem } from "./Stagger";
+import { spring } from "@/lib/motion";
 
 export function PartnersSection() {
   return (
@@ -12,10 +17,14 @@ export function PartnersSection() {
           sub="Direct relationships with major UAE banks and trusted industry partners."
           center
         />
-        <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <Stagger className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6" as="ul">
           {bankPartners.map((bank) => (
-            <li key={bank.logo}>
-              <div className="flex h-24 items-center justify-center rounded-2xl border hairline bg-card px-4 py-3 shadow-[var(--shadow-soft)]">
+            <StaggerItem key={bank.logo} as="li">
+              <motion.div
+                whileHover={{ scale: 1.06, y: -3 }}
+                transition={spring}
+                className="flex h-24 items-center justify-center rounded-2xl border hairline bg-card px-4 py-3 shadow-[var(--shadow-soft)]"
+              >
                 <Image
                   src={bank.logo}
                   alt={bank.name}
@@ -23,14 +32,18 @@ export function PartnersSection() {
                   height={56}
                   className="max-h-12 w-full object-contain"
                 />
-              </div>
-            </li>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </ul>
-        <ul className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t hairline pt-10">
+        </Stagger>
+        <Stagger className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t hairline pt-10" as="ul">
           {affiliatePartners.map((partner) => (
-            <li key={partner.logo}>
-              <div className="flex h-16 min-w-[8rem] items-center justify-center rounded-xl border hairline bg-card px-6 py-3">
+            <StaggerItem key={partner.logo} as="li">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={spring}
+                className="flex h-16 min-w-[8rem] items-center justify-center rounded-xl border hairline bg-card px-6 py-3"
+              >
                 <Image
                   src={partner.logo}
                   alt={partner.name}
@@ -38,10 +51,10 @@ export function PartnersSection() {
                   height={40}
                   className="max-h-10 w-auto object-contain"
                 />
-              </div>
-            </li>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </ul>
+        </Stagger>
       </div>
     </section>
   );

@@ -21,9 +21,10 @@ export function Services() {
               key={s.title}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02, y: -4 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45, delay: i * 0.05 }}
-              className="group flex flex-col rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-card)]"
+              className="group flex flex-col rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"
             >
               <p className="text-[11px] uppercase tracking-[0.14em] text-primary">{s.summary}</p>
               <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { RotateCcw, X } from "lucide-react";
+import { AnimateIn } from "./AnimateIn";
 import { SectionHeader } from "./SectionHeader";
 
 const AED = (n: number) =>
@@ -141,6 +142,7 @@ export function Calculator() {
           sub="Enter any amount in the fields below, or use the sliders as a guide."
         />
 
+        <AnimateIn variant="scaleIn" delay={0.05}>
         <div className="mt-10 overflow-hidden rounded-3xl border hairline bg-card shadow-[var(--shadow-card)] lg:grid lg:grid-cols-[1fr_minmax(320px,400px)] lg:items-stretch">
           {/* Inputs */}
           <div className="divide-y hairline p-6 sm:p-8 lg:p-10">
@@ -257,6 +259,7 @@ export function Calculator() {
             </a>
           </aside>
         </div>
+        </AnimateIn>
       </div>
 
       <PaymentDetailsModal

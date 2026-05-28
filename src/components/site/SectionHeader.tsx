@@ -1,12 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 
-const fadeUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-60px" },
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
-};
+import { fadeUp, viewport } from "@/lib/motion";
 
 export function SectionHeader({
     eyebrow,
@@ -20,7 +15,13 @@ export function SectionHeader({
     center?: boolean;
 }) {
     return (
-        <motion.div {...fadeUp} className={`max-w-3xl ${center ? "mx-auto text-center" : ""}`}>
+        <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={fadeUp}
+            className={`max-w-3xl ${center ? "mx-auto text-center" : ""}`}
+        >
             <p
                 className={`text-xs font-medium uppercase tracking-[0.2em] text-primary ${center ? "text-center" : ""}`}
             >

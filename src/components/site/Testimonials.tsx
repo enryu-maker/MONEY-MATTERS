@@ -22,6 +22,7 @@ export function Testimonials() {
               key={t.name}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02, y: -4 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
               className="flex flex-col rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"

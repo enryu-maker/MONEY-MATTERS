@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { bankPartners } from "@/lib/site-data";
+import { AnimateIn } from "./AnimateIn";
 
 function PartnerLogo({ name, logo }: { name: string; logo: string }) {
   return (
@@ -24,9 +25,9 @@ export function BankMarquee({ label }: { label?: string }) {
   return (
     <section className="border-y hairline section-bone py-10">
       {label && (
-        <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-          {label}
-        </p>
+        <AnimateIn className="mb-8 text-center" variant="fadeIn">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+        </AnimateIn>
       )}
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-linear-to-r from-[var(--bone)] to-transparent" />
