@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import {
   Calculator,
   ChevronDown,
+  BookOpen,
   HelpCircle,
   Home,
   Landmark,
@@ -25,6 +26,7 @@ const mainLinks: { label: string; href: string; icon: LucideIcon }[] = [
   { label: "Home", href: "/", icon: Home },
   { label: "Services", href: "/services", icon: Landmark },
   { label: "Calculator", href: "/calculator", icon: Calculator },
+  { label: "Blog", href: "/blog", icon: BookOpen },
   { label: "FAQ's", href: "/faq", icon: HelpCircle },
   { label: "Contact", href: "/contact", icon: Mail },
 ];
@@ -229,11 +231,11 @@ export function Navbar({ open, onOpenChange }: NavbarProps) {
 
           <div className="hidden items-center gap-2 lg:flex">
             <a
-              href={`tel:${site.phoneTel}`}
+              href={`tel:${site.phoneLandlineTel}`}
               className="inline-flex items-center gap-2 rounded-full border hairline px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-secondary"
             >
               <Phone className="h-4 w-4 text-primary" />
-              <span className="hidden xl:inline">{site.phone}</span>
+              <span className="hidden xl:inline">{site.phoneLandline}</span>
               <span className="xl:hidden">Call</span>
             </a>
             <Link
@@ -406,7 +408,7 @@ export function Navbar({ open, onOpenChange }: NavbarProps) {
                 className="shrink-0 space-y-3 border-t hairline bg-background px-4 py-5"
               >
                 <motion.a
-                  href={`tel:${site.phoneTel}`}
+                  href={`tel:${site.phoneLandlineTel}`}
                   className="flex min-h-[3rem] items-center justify-center gap-2 rounded-xl border hairline bg-card text-sm font-semibold"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.97 }}
@@ -418,7 +420,7 @@ export function Navbar({ open, onOpenChange }: NavbarProps) {
                   >
                     <Phone className="h-4 w-4 text-primary" />
                   </motion.span>
-                  {site.phone}
+                  {site.phoneLandline}
                 </motion.a>
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={spring}>
                   <Link

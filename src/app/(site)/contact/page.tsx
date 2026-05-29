@@ -1,17 +1,20 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { ContactDetails } from "@/components/site/ContactDetails";
 import { ContactForm } from "@/components/site/ContactForm";
-import { site } from "@/lib/site-data";
-import type { Metadata } from "next";
+import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata: Metadata = {
-  title: `Contact — ${site.name}`,
-  description: `Call ${site.phone}, email ${site.email}, or visit us in Business Bay, Dubai.`,
-};
+export const metadata = pageSeo.contact;
 
 export default function ContactPage() {
   return (
     <main>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ])}
+      />
       <PageBanner
         eyebrow="Contact"
         title="Let's talk"

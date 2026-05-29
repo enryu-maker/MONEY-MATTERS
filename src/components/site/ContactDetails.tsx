@@ -6,52 +6,58 @@ import { site } from "@/lib/site-data";
 import { Stagger, StaggerItem } from "./Stagger";
 import { cardHover } from "@/lib/motion";
 
+const cardClass =
+  "flex h-full min-h-[220px] flex-col rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]";
+
 export function ContactDetails() {
   return (
     <section className="section-pad">
-      <Stagger className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
-        <StaggerItem>
+      <Stagger className="mx-auto grid max-w-7xl items-stretch gap-5 md:grid-cols-3">
+        <StaggerItem className="h-full">
           <motion.a
-            href={`tel:${site.phoneTel}`}
+            href={`tel:${site.phoneLandlineTel}`}
             initial="rest"
             whileHover="hover"
             variants={cardHover}
-            className="block rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"
+            className={cardClass}
           >
-            <Phone className="h-5 w-5 text-primary" />
+            <Phone className="h-5 w-5 shrink-0 text-primary" />
             <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Call us</p>
-            <p className="mt-2 font-display text-2xl font-semibold">{site.phone}</p>
-            <p className="mt-2 text-sm text-muted-foreground">Sun – Thu · 9am to 6pm GST</p>
+            <p className="mt-2 font-display text-xl font-semibold leading-snug md:text-2xl">
+              {site.phoneLandline}
+            </p>
+            <p className="mt-auto pt-4 text-sm text-muted-foreground">Sun – Thu · 9am to 6pm GST</p>
           </motion.a>
         </StaggerItem>
-        <StaggerItem>
+        <StaggerItem className="h-full">
           <motion.a
             href={`mailto:${site.email}`}
             initial="rest"
             whileHover="hover"
             variants={cardHover}
-            className="block rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"
+            className={cardClass}
           >
-            <Mail className="h-5 w-5 text-primary" />
+            <Mail className="h-5 w-5 shrink-0 text-primary" />
             <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Email</p>
-            <p className="mt-2 font-display text-xl font-semibold break-all">{site.email}</p>
-            <p className="mt-2 text-sm text-muted-foreground">We respond within one business day</p>
+            <p className="mt-2 font-display text-xl font-semibold leading-snug break-all">
+              {site.email}
+            </p>
+            <p className="mt-auto pt-4 text-sm text-muted-foreground">
+              We respond within one business day
+            </p>
           </motion.a>
         </StaggerItem>
-        <StaggerItem>
+        <StaggerItem className="h-full">
           <motion.div
             initial="rest"
             whileHover="hover"
             variants={cardHover}
-            className="rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"
+            className={cardClass}
           >
-            <MapPin className="h-5 w-5 text-primary" />
+            <MapPin className="h-5 w-5 shrink-0 text-primary" />
             <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Visit</p>
-            <p className="mt-2 text-base leading-relaxed">
-              {site.address}
-              <br />
-              {site.poBox}
-            </p>
+            <p className="mt-2 flex-1 text-base leading-relaxed">{site.address}</p>
+            <p className="mt-auto pt-4 text-sm text-muted-foreground">{site.poBox}</p>
           </motion.div>
         </StaggerItem>
       </Stagger>

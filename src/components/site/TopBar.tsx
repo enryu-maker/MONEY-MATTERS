@@ -7,11 +7,11 @@ export function TopBar() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 md:px-6">
         <div className="flex flex-wrap items-center gap-5">
           <a
-            href={`tel:${site.phoneTel}`}
+            href={`tel:${site.phoneLandlineTel}`}
             className="inline-flex items-center gap-1.5 font-medium transition-opacity hover:opacity-80"
           >
             <Phone className="h-3.5 w-3.5" aria-hidden />
-            {site.phone}
+            {site.phoneLandline}
           </a>
           <a
             href={`mailto:${site.email}`}

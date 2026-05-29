@@ -1,17 +1,20 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { PartnersSection } from "@/components/site/PartnersSection";
-import { site } from "@/lib/site-data";
-import type { Metadata } from "next";
+import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata: Metadata = {
-  title: `Our Partners — ${site.name}`,
-  description:
-    "Money Matters is affiliated with major UAE banks and trusted industry partners including Emirates NBD, Mashreq, ADCB, FAB, HSBC, and more.",
-};
+export const metadata = pageSeo.partners;
 
 export default function PartnersPage() {
   return (
     <main>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+          { name: "Partners", path: "/about/partners" },
+        ])}
+      />
       <PageBanner
         eyebrow="About / Partners"
         title="Our partners"

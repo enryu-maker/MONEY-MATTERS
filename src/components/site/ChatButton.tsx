@@ -4,7 +4,7 @@ import { MessageCircle } from "lucide-react";
 import { site } from "@/lib/site-data";
 
 export function ChatButton({ hidden }: { hidden?: boolean }) {
-  const wa = site.phoneTel.replace("+", "");
+  const wa = site.phoneWhatsAppTel.replace("+", "");
 
   if (hidden) return null;
 

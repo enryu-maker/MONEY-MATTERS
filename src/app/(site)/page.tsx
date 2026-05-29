@@ -3,13 +3,10 @@ import { BankMarquee } from "@/components/site/BankMarquee";
 import { ServicesPreview } from "@/components/site/ServicesPreview";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ContactCTA } from "@/components/site/ContactCTA";
-import { about, site } from "@/lib/site-data";
-import type { Metadata } from "next";
+import { site } from "@/lib/site-data";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `${site.name} — Trusted Mortgage Consultancy in UAE`,
-  description: about.intro,
-};
+export const metadata = pageSeo.home;
 
 export default function HomePage() {
   return (

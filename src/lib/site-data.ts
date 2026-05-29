@@ -3,17 +3,19 @@
 export const site = {
   name: "Money Matters",
   tagline: "Mortgage Consultants",
-  phone: "+971 4 585 0565",
-  phoneTel: "+97145850565",
+  phone: "+971 50 858 0600",
+  phoneWhatsAppTel: "+971508580600",
+  phoneLandline: "+971 4 585 0565",
+  phoneLandlineTel: "+97145850565",
   email: "admin@moneymatters.ae",
   address: "1009, Tamani Art Office Tower, Business Bay, Dubai",
   poBox: "P.O. Box 120380",
   founded: 2016,
   privacyUrl: "https://moneymatters.ae/privacy-policy/",
   social: {
-    facebook: "https://www.facebook.com/moneymatters.ae",
-    instagram: "https://www.instagram.com/moneymatters.ae",
-    linkedin: "https://www.linkedin.com/company/money-matters-mortgage-brokers",
+    facebook: "https://www.facebook.com/www.moneymatters.ae/",
+    instagram: "https://www.instagram.com/moneymatters_uae/",
+    linkedin: "https://www.linkedin.com/company/moneymattersae/",
   },
 } as const;
 
@@ -69,20 +71,15 @@ export const bankPartners = [
   { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
   { name: "ADCB", logo: "/partners/adcb.jpg" },
   { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
-  { name: "HSBC", logo: "/partners/hsbc.jpg" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
   { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
   { name: "ADIB", logo: "/partners/adib.jpg" },
   { name: "RAKBANK", logo: "/partners/rakbank.jpg" },
   { name: "Commercial Bank of Dubai", logo: "/partners/cbd.jpg" },
   { name: "Ajman Bank", logo: "/partners/ajman.png" },
-  { name: "Noor Bank", logo: "/partners/noor.jpg" },
 ] as const;
 
 export const affiliatePartners = [
-  { name: "Capstone", logo: "/partners/capstone.jpg" },
-  { name: "Landsmith", logo: "/partners/landsmith.jpg" },
-  { name: "IPF", logo: "/partners/ipf.jpg" },
 ] as const;
 
 export const allPartners = [...bankPartners, ...affiliatePartners] as const;

@@ -1,17 +1,19 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { Calculator } from "@/components/site/Calculator";
-import { site } from "@/lib/site-data";
-import type { Metadata } from "next";
+import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata: Metadata = {
-  title: `Mortgage Calculator — ${site.name}`,
-  description:
-    "Calculate your mortgage instantly. Estimate monthly payments and overall affordability for UAE property finance.",
-};
+export const metadata = pageSeo.calculator;
 
 export default function CalculatorPage() {
   return (
     <main>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Calculator", path: "/calculator" },
+        ])}
+      />
       <PageBanner
         eyebrow="Calculator"
         title="Calculate your mortgage instantly"

@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { RotateCcw, X } from "lucide-react";
+import { X } from "lucide-react";
 import { AnimateIn } from "./AnimateIn";
 import { SectionHeader } from "./SectionHeader";
 
@@ -32,6 +32,118 @@ function sliderPos(value: number, min: number, max: number) {
   if (max <= min) return 0;
   const clamped = Math.min(max, Math.max(min, value));
   return ((clamped - min) / (max - min)) * 100;
+}
+
+function useCoarsePointer() {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      const mq = window.matchMedia("(pointer: coarse)");
+      mq.addEventListener("change", onStoreChange);
+      return () => mq.removeEventListener("change", onStoreChange);
+    },
+    () => window.matchMedia("(pointer: coarse)").matches,
+    () => false,
+  );
+}
+
+function CalcSlider({
+  label,
+  min,
+  max,
+  step,
+  value,
+  displayValue,
+  onChange,
+}: {
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  displayValue: number;
+  onChange: (v: number) => void;
+}) {
+  const sliderValue = Math.min(max, Math.max(min, value));
+
+  return (
+    <div className="calc-slider-zone">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={sliderValue}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{
+          background: `linear-gradient(to right, var(--primary) 0%, var(--primary) ${sliderPos(displayValue, min, max)}%, var(--muted) ${sliderPos(displayValue, min, max)}%, var(--muted) 100%)`,
+        }}
+        className="calc-range w-full"
+        aria-label={`${label} slider`}
+      />
+    </div>
+  );
+}
+
+function TapToEditField({
+  label,
+  display,
+  draft,
+  onDraftChange,
+  onCommit,
+  prefix,
+  suffix,
+}: {
+  label: string;
+  display: string;
+  draft: string;
+  onDraftChange: (v: string) => void;
+  onCommit: () => void;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+}) {
+  const coarse = useCoarsePointer();
+  const [editing, setEditing] = useState(false);
+
+  const close = () => {
+    onCommit();
+    setEditing(false);
+  };
+
+  if (coarse && !editing) {
+    return (
+      <button
+        type="button"
+        onClick={() => setEditing(true)}
+        className="flex w-full min-h-[3.25rem] items-center overflow-hidden rounded-xl border hairline bg-secondary/40 text-left transition-colors active:bg-secondary/70"
+        aria-label={`${label}, tap to type`}
+      >
+        {prefix}
+        <span className="flex flex-1 flex-col px-4 py-3">
+          <span className="font-semibold tabular-nums text-foreground">{display}</span>
+          <span className="text-xs font-medium text-primary">Tap to type</span>
+        </span>
+        {suffix}
+      </button>
+    );
+  }
+
+  return (
+    <div className="flex items-center overflow-hidden rounded-xl border hairline bg-secondary/40 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
+      {prefix}
+      <input
+        type="text"
+        inputMode="decimal"
+        value={draft}
+        autoFocus={coarse && editing}
+        onChange={(e) => onDraftChange(e.target.value)}
+        onBlur={close}
+        onKeyDown={(e) => e.key === "Enter" && close()}
+        className="calc-input min-h-[3.25rem] w-full flex-1 border-0 bg-transparent px-4 font-semibold tabular-nums text-foreground outline-none"
+        aria-label={label}
+      />
+      {suffix}
+    </div>
+  );
 }
 
 type PaymentRow = {
@@ -73,41 +185,64 @@ function buildSchedule(loan: number, annualRate: number, months: number): Paymen
   return rows;
 }
 
+const TENURE_MAX_MONTHS = 300;
+
 export function Calculator() {
   const [price, setPrice] = useState(2_000_000);
-  const [downPayment, setDownPayment] = useState(500_000);
+  const [downPaymentPct, setDownPaymentPct] = useState(25);
   const [loanAmount, setLoanAmount] = useState(1_500_000);
-  const [loanManual, setLoanManual] = useState(false);
   const [rate, setRate] = useState(4.25);
   const [tenureMonths, setTenureMonths] = useState(300);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  const dpPct = price > 0 ? (downPayment / price) * 100 : 0;
-  const computedLoan = Math.max(0, Math.round(price - downPayment));
+  const downPayment = useMemo(
+    () => Math.min(price, Math.round((price * downPaymentPct) / 100)),
+    [price, downPaymentPct],
+  );
+  const setPriceAndSync = useCallback((next: number) => {
+    setPrice(next);
+    const dp = Math.min(next, Math.round((next * downPaymentPct) / 100));
+    setLoanAmount(Math.max(0, next - dp));
+  }, [downPaymentPct]);
 
-  useEffect(() => {
-    if (!loanManual) setLoanAmount(computedLoan);
-  }, [computedLoan, loanManual]);
-
-  const setPriceAndSync = useCallback(
-    (next: number) => {
-      setPrice(next);
-      if (!loanManual) setLoanAmount(Math.max(0, next - downPayment));
+  const setDownPctAndSync = useCallback(
+    (pct: number) => {
+      const clamped = Math.min(100, Math.max(0, Math.round(pct * 100) / 100));
+      setDownPaymentPct(clamped);
+      const dp = Math.min(price, Math.round((price * clamped) / 100));
+      setLoanAmount(Math.max(0, price - dp));
     },
-    [downPayment, loanManual],
+    [price],
   );
 
-  const setDownAndSync = useCallback(
-    (next: number) => {
-      setDownPayment(next);
-      if (!loanManual) setLoanAmount(Math.max(0, price - next));
+  const setDownAmountAndSync = useCallback(
+    (amount: number) => {
+      const clamped = Math.min(price, Math.max(0, Math.round(amount)));
+      const pct = price > 0 ? Math.round((clamped / price) * 10000) / 100 : 0;
+      setDownPaymentPct(pct);
+      setLoanAmount(Math.max(0, price - clamped));
     },
-    [price, loanManual],
+    [price],
   );
+
+  const setLoanAndSync = useCallback(
+    (nextLoan: number) => {
+      const clampedLoan = Math.min(price, Math.max(0, Math.round(nextLoan)));
+      setLoanAmount(clampedLoan);
+      const dp = Math.max(0, price - clampedLoan);
+      const pct = price > 0 ? Math.round((dp / price) * 10000) / 100 : 0;
+      setDownPaymentPct(pct);
+    },
+    [price],
+  );
+
+  const setTenure = useCallback((months: number) => {
+    setTenureMonths(Math.min(TENURE_MAX_MONTHS, Math.max(1, Math.round(months))));
+  }, []);
 
   const { emi, totalPay, totalInt, schedule, months } = useMemo(() => {
     const loan = Math.max(0, loanAmount);
-    const monthCount = Math.max(1, Math.round(tenureMonths));
+    const monthCount = Math.min(TENURE_MAX_MONTHS, Math.max(1, Math.round(tenureMonths)));
     const schedule = buildSchedule(loan, rate, monthCount);
     const emi = schedule[0]?.payment ?? 0;
     const totalPay = schedule.reduce((sum, row) => sum + row.payment, 0);
@@ -116,8 +251,6 @@ export function Calculator() {
   }, [loanAmount, rate, tenureMonths]);
 
   const hasSchedule = schedule.length > 0 && loanAmount > 0;
-
-  const tenureYears = (tenureMonths / 12).toFixed(1);
 
   useEffect(() => {
     if (!detailsOpen) return;
@@ -158,47 +291,23 @@ export function Calculator() {
             </FieldGroup>
 
             <FieldGroup title="Down payment">
-              <MoneyControl
-                label="Down payment"
-                value={downPayment}
-                sliderMin={0}
-                sliderMax={Math.max(price, 1)}
-                sliderStep={10_000}
-                onChange={setDownAndSync}
+              <DownPaymentControl
+                percent={downPaymentPct}
+                amount={downPayment}
+                price={price}
+                onPercentChange={setDownPctAndSync}
+                onAmountChange={setDownAmountAndSync}
               />
-              <p className="text-sm text-muted-foreground">
-                {dpPct.toFixed(1)}% of property value
-              </p>
             </FieldGroup>
 
-            <FieldGroup
-              title="Loan amount"
-              action={
-                loanManual ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLoanManual(false);
-                      setLoanAmount(computedLoan);
-                    }}
-                    className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
-                  >
-                    <RotateCcw className="h-3 w-3" />
-                    Reset from down payment
-                  </button>
-                ) : null
-              }
-            >
+            <FieldGroup title="Loan amount">
               <MoneyControl
                 label="Loan amount"
                 value={loanAmount}
                 sliderMin={0}
                 sliderMax={Math.max(price, loanAmount, 1)}
                 sliderStep={10_000}
-                onChange={(v) => {
-                  setLoanManual(true);
-                  setLoanAmount(v);
-                }}
+                onChange={setLoanAndSync}
               />
             </FieldGroup>
 
@@ -215,10 +324,10 @@ export function Calculator() {
                 label="Loan tenure"
                 value={tenureMonths}
                 sliderMin={12}
-                sliderMax={360}
+                sliderMax={TENURE_MAX_MONTHS}
                 sliderStep={1}
-                onChange={setTenureMonths}
-                yearsHint={tenureYears}
+                maxMonths={TENURE_MAX_MONTHS}
+                onChange={setTenure}
               />
             </FieldGroup>
           </div>
@@ -234,7 +343,6 @@ export function Calculator() {
               </p>
               <dl className="mt-6 space-y-2.5 text-sm">
                 <ResultRow label="Loan amount" value={hasSchedule ? AED(loanAmount) : "—"} />
-                <ResultRow label="Down payment" value={hasSchedule ? AED(downPayment) : "—"} />
                 <ResultRow label="Interest rate" value={hasSchedule ? `${rate.toFixed(2)}% p.a.` : "—"} />
                 <ResultRow label="Tenure" value={hasSchedule ? `${months} months` : "—"} />
                 <ResultRow label="Total interest" value={hasSchedule ? AED(totalInt) : "—"} />
@@ -499,34 +607,29 @@ function MoneyControl({
   return (
     <div className="space-y-3">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
-      <div className="flex items-center overflow-hidden rounded-xl border hairline bg-secondary/40 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
-        <span className="shrink-0 border-r hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
-          AED
-        </span>
-        <input
-          type="text"
-          inputMode="decimal"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onBlur={commit}
-          onKeyDown={(e) => e.key === "Enter" && commit()}
-          className="calc-input min-h-[3.25rem] w-full flex-1 border-0 bg-transparent px-4 font-semibold tabular-nums text-foreground outline-none"
-          aria-label={label}
-        />
-      </div>
-      <input
-        type="range"
+      <CalcSlider
+        label={label}
         min={sliderMin}
         max={sliderMax}
         step={sliderStep}
         value={sliderValue}
-        onChange={(e) => onChange(Number(e.target.value))}
-        style={{
-          background: `linear-gradient(to right, var(--primary) 0%, var(--primary) ${sliderPos(value, sliderMin, sliderMax)}%, var(--muted) ${sliderPos(value, sliderMin, sliderMax)}%, var(--muted) 100%)`,
-        }}
-        className="calc-range w-full"
-        aria-label={`${label} slider`}
+        displayValue={value}
+        onChange={onChange}
       />
+      <div className="calc-field-inputs">
+        <TapToEditField
+          label={label}
+          display={formatWithCommas(value)}
+          draft={draft}
+          onDraftChange={setDraft}
+          onCommit={commit}
+          prefix={
+            <span className="shrink-0 border-r hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
+              AED
+            </span>
+          }
+        />
+      </div>
       {value > sliderMax && (
         <p className="text-xs text-muted-foreground">
           Slider tops at {AED(sliderMax)} — your entered amount is used for EMI.
@@ -573,35 +676,125 @@ function PercentControl({
   return (
     <div className="space-y-3">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
-      <div className="flex items-center overflow-hidden rounded-xl border hairline bg-secondary/40 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
-        <input
-          type="text"
-          inputMode="decimal"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onBlur={commit}
-          onKeyDown={(e) => e.key === "Enter" && commit()}
-          className="calc-input min-h-[3.25rem] w-full flex-1 border-0 bg-transparent px-4 font-semibold tabular-nums text-foreground outline-none"
-          aria-label={label}
-        />
-        <span className="shrink-0 border-l hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
-          %
-        </span>
-      </div>
-      <input
-        type="range"
+      <CalcSlider
+        label={label}
         min={sliderMin}
         max={sliderMax}
         step={sliderStep}
         value={sliderValue}
-        onChange={(e) => onChange(Math.round(parseFloat(e.target.value) * 100) / 100)}
-        style={{
-          background: `linear-gradient(to right, var(--primary) 0%, var(--primary) ${sliderPos(value, sliderMin, sliderMax)}%, var(--muted) ${sliderPos(value, sliderMin, sliderMax)}%, var(--muted) 100%)`,
-        }}
-        className="calc-range w-full"
-        aria-label={`${label} slider`}
+        displayValue={value}
+        onChange={(v) => onChange(Math.round(v * 100) / 100)}
       />
+      <div className="calc-field-inputs">
+        <TapToEditField
+          label={label}
+          display={`${value.toFixed(2)}%`}
+          draft={draft}
+          onDraftChange={setDraft}
+          onCommit={commit}
+          suffix={
+            <span className="shrink-0 border-l hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
+              %
+            </span>
+          }
+        />
+      </div>
       <p className="text-xs text-muted-foreground">Adjust by 0.01% — type any rate you need.</p>
+    </div>
+  );
+}
+
+function DownPaymentControl({
+  percent,
+  amount,
+  price,
+  onPercentChange,
+  onAmountChange,
+}: {
+  percent: number;
+  amount: number;
+  price: number;
+  onPercentChange: (pct: number) => void;
+  onAmountChange: (amount: number) => void;
+}) {
+  const [pctDraft, setPctDraft] = useState(percent.toFixed(1));
+  const [amountDraft, setAmountDraft] = useState(formatWithCommas(amount));
+
+  useEffect(() => {
+    setPctDraft(percent.toFixed(1));
+  }, [percent]);
+
+  useEffect(() => {
+    setAmountDraft(formatWithCommas(amount));
+  }, [amount]);
+
+  const commitPct = () => {
+    const parsed = parseNumber(pctDraft);
+    if (parsed !== null) {
+      onPercentChange(parsed);
+      setPctDraft(Math.min(100, Math.max(0, parsed)).toFixed(1));
+    } else {
+      setPctDraft(percent.toFixed(1));
+    }
+  };
+
+  const commitAmount = () => {
+    const parsed = parseNumber(amountDraft);
+    if (parsed !== null) {
+      onAmountChange(parsed);
+      setAmountDraft(formatWithCommas(Math.min(price, Math.max(0, Math.round(parsed)))));
+    } else {
+      setAmountDraft(formatWithCommas(amount));
+    }
+  };
+
+  const sliderPct = Math.min(100, Math.max(0, percent));
+
+  return (
+    <div className="space-y-3">
+      <label className="block text-sm font-medium text-muted-foreground">Down payment</label>
+
+      <p className="font-display text-2xl font-semibold tabular-nums tracking-tight text-foreground sm:text-3xl">
+        {AED(amount)}
+      </p>
+      <p className="text-xs text-muted-foreground">of {AED(price)} property value</p>
+
+      <CalcSlider
+        label="Down payment"
+        min={0}
+        max={100}
+        step={0.5}
+        value={sliderPct}
+        displayValue={percent}
+        onChange={onPercentChange}
+      />
+
+      <div className="calc-field-inputs grid gap-3 sm:grid-cols-2">
+        <TapToEditField
+          label="Down payment percentage"
+          display={`${percent.toFixed(1)}%`}
+          draft={pctDraft}
+          onDraftChange={setPctDraft}
+          onCommit={commitPct}
+          suffix={
+            <span className="shrink-0 border-l hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
+              %
+            </span>
+          }
+        />
+        <TapToEditField
+          label="Down payment amount"
+          display={formatWithCommas(amount)}
+          draft={amountDraft}
+          onDraftChange={setAmountDraft}
+          onCommit={commitAmount}
+          prefix={
+            <span className="shrink-0 border-r hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
+              AED
+            </span>
+          }
+        />
+      </div>
     </div>
   );
 }
@@ -612,7 +805,7 @@ function MonthsControl({
   sliderMin,
   sliderMax,
   sliderStep,
-  yearsHint,
+  maxMonths,
   onChange,
 }: {
   label: string;
@@ -620,7 +813,7 @@ function MonthsControl({
   sliderMin: number;
   sliderMax: number;
   sliderStep: number;
-  yearsHint: string;
+  maxMonths: number;
   onChange: (v: number) => void;
 }) {
   const [draft, setDraft] = useState(String(Math.round(value)));
@@ -632,7 +825,7 @@ function MonthsControl({
   const commit = () => {
     const parsed = parseNumber(draft);
     if (parsed !== null && parsed >= 1) {
-      const months = Math.round(parsed);
+      const months = Math.min(maxMonths, Math.round(parsed));
       onChange(months);
       setDraft(String(months));
     } else {
@@ -645,35 +838,34 @@ function MonthsControl({
   return (
     <div className="space-y-3">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
-      <div className="flex items-center overflow-hidden rounded-xl border hairline bg-secondary/40 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
-        <input
-          type="text"
-          inputMode="numeric"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onBlur={commit}
-          onKeyDown={(e) => e.key === "Enter" && commit()}
-          className="calc-input min-h-[3.25rem] w-full flex-1 border-0 bg-transparent px-4 font-semibold tabular-nums text-foreground outline-none"
-          aria-label={label}
-        />
-        <span className="shrink-0 border-l hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
-          months
-        </span>
-      </div>
-      <p className="text-sm text-muted-foreground">≈ {yearsHint} years · type any number of months</p>
-      <input
-        type="range"
+      <CalcSlider
+        label={label}
         min={sliderMin}
         max={sliderMax}
         step={sliderStep}
         value={sliderValue}
-        onChange={(e) => onChange(Number(e.target.value))}
-        style={{
-          background: `linear-gradient(to right, var(--primary) 0%, var(--primary) ${sliderPos(value, sliderMin, sliderMax)}%, var(--muted) ${sliderPos(value, sliderMin, sliderMax)}%, var(--muted) 100%)`,
-        }}
-        className="calc-range w-full"
-        aria-label={`${label} slider`}
+        displayValue={value}
+        onChange={onChange}
       />
+      <div className="calc-field-inputs">
+        <TapToEditField
+          label={label}
+          display={String(Math.round(value))}
+          draft={draft}
+          onDraftChange={setDraft}
+          onCommit={commit}
+          suffix={
+            <span className="shrink-0 border-l hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
+              months
+            </span>
+          }
+        />
+      </div>
+      {value > sliderMax && (
+        <p className="text-xs text-muted-foreground">
+          Slider tops at {maxMonths} months — your entered tenure is used for EMI.
+        </p>
+      )}
     </div>
   );
 }

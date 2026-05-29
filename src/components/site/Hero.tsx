@@ -14,10 +14,12 @@ export function Hero() {
           className="h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/75 via-black/45 to-black/25" />
-        <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-linear-to-t from-background via-background/40 to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[calc(88svh-5rem)] max-w-7xl flex-col justify-center px-4 py-16 md:px-6">
+      <div className="relative mx-auto flex min-h-[calc(88svh-5rem)] max-w-7xl flex-col justify-between px-4 py-16 md:px-6">
+        <div className="flex flex-col justify-center pt-4">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -33,9 +35,9 @@ export function Hero() {
           transition={{ duration: 0.55, delay: 0.08 }}
           className="max-w-3xl font-display text-4xl leading-[1.05] text-white sm:text-5xl md:text-6xl"
         >
-          Looking for a complete
+          Your complete mortgage
           <br />
-          mortgage solution?
+          solution in Dubai &amp; the UAE
         </motion.h1>
 
         <motion.p
@@ -66,28 +68,36 @@ export function Hero() {
             Let&apos;s Talk
           </a>
         </motion.div>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.32 }}
-          className="mt-14 grid max-w-2xl grid-cols-3 gap-6 border-t border-white/15 pt-10"
+          className="mt-10 w-full max-w-3xl pb-2"
         >
-          {[
-            { v: String(site.founded), l: "Serving UAE since" },
-            { v: "DED", l: "Licensed brokers" },
-            { v: "Major", l: "Bank partners" },
-          ].map((s, i) => (
-            <motion.div
-              key={s.l}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.38 + i * 0.08 }}
-            >
-              <div className="font-display text-2xl font-semibold text-white md:text-3xl">{s.v}</div>
-              <div className="mt-1 text-xs text-white/65">{s.l}</div>
-            </motion.div>
-          ))}
+          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-white/20 bg-black/55 px-4 py-5 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md sm:gap-6 sm:px-6 sm:py-6 md:max-w-2xl">
+            {[
+              { v: String(site.founded), l: "Serving UAE since" },
+              { v: "DED", l: "Licensed brokers" },
+              { v: "Major", l: "Bank partners" },
+            ].map((s, i) => (
+              <motion.div
+                key={s.l}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.38 + i * 0.08 }}
+                className="text-center sm:text-left"
+              >
+                <div className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl">
+                  {s.v}
+                </div>
+                <div className="mt-1.5 text-[11px] font-medium uppercase tracking-wider text-white/90 sm:text-xs">
+                  {s.l}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

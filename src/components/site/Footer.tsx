@@ -8,6 +8,7 @@ const homeLink = { label: "Home", href: "/" } as const;
 const navigateLinks = [
   { label: "Services", href: "/services" },
   { label: "Calculator", href: "/calculator" },
+  { label: "Blog", href: "/blog" },
   { label: "FAQ's", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
@@ -26,7 +27,7 @@ export function Footer() {
             </p>
             <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
               <a
-                href={`https://wa.me/${site.phoneTel.replace("+", "")}`}
+                href={`https://wa.me/${site.phoneWhatsAppTel.replace("+", "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-medium text-white sm:justify-start"
@@ -35,11 +36,11 @@ export function Footer() {
                 WhatsApp
               </a>
               <a
-                href={`tel:${site.phoneTel}`}
+                href={`tel:${site.phoneLandlineTel}`}
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border hairline bg-card px-5 py-2.5 text-sm font-medium sm:justify-start"
               >
                 <Phone className="h-4 w-4 shrink-0 text-primary" />
-                Book a call
+                {site.phoneLandline}
               </a>
             </div>
           </div>
@@ -109,10 +110,10 @@ export function Footer() {
                 </li>
                 <li>
                   <a
-                    href={`tel:${site.phoneTel}`}
+                    href={`tel:${site.phoneLandlineTel}`}
                     className="inline-flex min-h-9 items-center font-medium text-foreground hover:text-primary"
                   >
-                    {site.phone}
+                    {site.phoneLandline}
                   </a>
                 </li>
                 <li>

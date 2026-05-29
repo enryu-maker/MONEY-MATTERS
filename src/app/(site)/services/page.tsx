@@ -1,18 +1,20 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { Services } from "@/components/site/Services";
 import { BankMarquee } from "@/components/site/BankMarquee";
-import { site } from "@/lib/site-data";
-import type { Metadata } from "next";
+import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata: Metadata = {
-  title: `Our Services — ${site.name}`,
-  description:
-    "Resale and fresh purchase, buyout, equity release, non-resident, corporate, and commercial real estate financing in the UAE.",
-};
+export const metadata = pageSeo.services;
 
 export default function ServicesPage() {
   return (
     <main>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+        ])}
+      />
       <PageBanner
         eyebrow="Services"
         title="Our services"

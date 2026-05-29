@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
-import { affiliatePartners, bankPartners } from "@/lib/site-data";
+import { bankPartners } from "@/lib/site-data";
 import { Stagger, StaggerItem } from "./Stagger";
 import { spring } from "@/lib/motion";
 
@@ -31,25 +31,6 @@ export function PartnersSection() {
                   width={140}
                   height={56}
                   className="max-h-12 w-full object-contain"
-                />
-              </motion.div>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <Stagger className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t hairline pt-10" as="ul">
-          {affiliatePartners.map((partner) => (
-            <StaggerItem key={partner.logo} as="li">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={spring}
-                className="flex h-16 min-w-[8rem] items-center justify-center rounded-xl border hairline bg-card px-6 py-3"
-              >
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  width={120}
-                  height={40}
-                  className="max-h-10 w-auto object-contain"
                 />
               </motion.div>
             </StaggerItem>

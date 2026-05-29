@@ -1,17 +1,20 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { TeamSection } from "@/components/site/TeamSection";
-import { site } from "@/lib/site-data";
-import type { Metadata } from "next";
+import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata: Metadata = {
-  title: `Our Team — ${site.name}`,
-  description:
-    "Meet Siddharth Chhugani, Mala Mehra, Sandip Banerjee, Mohammed Sarbar Ahmed, and Sebastian Tellis — your Money Matters mortgage consultants in Dubai.",
-};
+export const metadata = pageSeo.team;
 
 export default function TeamPage() {
   return (
     <main>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+          { name: "Our team", path: "/about/team" },
+        ])}
+      />
       <PageBanner
         eyebrow="About / Team"
         title="Our team"
