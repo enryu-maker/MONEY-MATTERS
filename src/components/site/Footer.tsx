@@ -22,7 +22,7 @@ export function Footer() {
           <div className="lg:col-span-5">
             <Logo size="footer" />
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Boutique mortgage consultancy affiliated with major banks across the UAE. Licensed
+            Money Matters Mortgage Brokers is affiliated with major banks across the UAE. Licensed
               under the Dubai Economy Department since {site.founded}.
             </p>
             <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
