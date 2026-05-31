@@ -1,6 +1,7 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { AboutIntro } from "@/components/site/AboutIntro";
 import { WhyUs } from "@/components/site/WhyUs";
+import { GallerySection } from "@/components/site/GallerySection";
 import { TeamSection } from "@/components/site/TeamSection";
 import { about } from "@/lib/site-data";
 import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
@@ -20,6 +21,7 @@ export default function AboutPage() {
       <PageBanner eyebrow="About" title="Our company" description={about.intro} />
       <AboutIntro />
       <TeamSection showViewAll />
+      <GallerySection />
       <WhyUs />
     </main>
   );

@@ -1,5 +1,6 @@
 import { Hero } from "@/components/site/Hero";
 import { BankMarquee } from "@/components/site/BankMarquee";
+import { GallerySection } from "@/components/site/GallerySection";
 import { ServicesPreview } from "@/components/site/ServicesPreview";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ContactCTA } from "@/components/site/ContactCTA";
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Hero />
       <BankMarquee label={`Affiliated with major UAE banks since ${site.founded}`} />
       <ServicesPreview />
+      <GallerySection />
       <Testimonials />
       <ContactCTA />
     </main>

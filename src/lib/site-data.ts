@@ -95,8 +95,8 @@ export const team = [
   {
     name: "Siddharth Chhugani",
     role: "Founder & CEO",
-    image: "/team/siddharth.png",
-    bio: "With more than 15 years in corporate finance, banking, and mortgage markets, Siddharth leads Money Matters — building lender relationships, strategic alliances, and a results-driven team focused on client satisfaction.",
+    image: "/team/siddharth.jpeg",
+    bio: "With more than 20 years in corporate finance, banking, and mortgage markets, Siddharth leads Money Matters — building lender relationships, strategic alliances, and a results-driven team focused on client satisfaction.",
   },
   {
     name: "Mala Mehra",
@@ -104,12 +104,12 @@ export const team = [
     image: "/team/mala.png",
     bio: "Mala brings banking experience since 2000, corporate law expertise, and an MBA. She ensures every transaction meets compliance while guiding clients with empathy from inception through completion.",
   },
-  {
-    name: "Sandip Banerjee",
-    role: "Assistant Manager",
-    image: "/team/sandip.png",
-    bio: "Sandip has 17 years in mortgage loans, business banking, and TWC. He delivers holistic mortgage planning aligned to your goals, cash flow, and risk profile.",
-  },
+  // {
+  //   name: "Sandip Banerjee",
+  //   role: "Assistant Manager",
+  //   image: "/team/sandip.png",
+  //   bio: "Sandip has 17 years in mortgage loans, business banking, and TWC. He delivers holistic mortgage planning aligned to your goals, cash flow, and risk profile.",
+  // },
   {
     name: "Mohammed Sarbar Ahmed",
     role: "Mortgage Specialist",
@@ -122,6 +122,12 @@ export const team = [
     image: "/team/sebastian.jpg",
     bio: "13 years across ENBD, EIB, FAB, ADCB, CBD, Ajman Bank, and HDFC in the UAE. Sebastian combines deep product knowledge with cross-cultural relationship management.",
   },
+  {
+    name: "Rekha Rajendran",
+    role: "Mortgage Advisor",
+    image: "/team/rekha.jpeg",
+    bio: "Results-driven Administrative Officer with experience supporting senior management across India and the UAE. She coordinates operations and events with discretion, and works effectively in fast-paced environments.",
+  }, 
 ] as const;
 
 export const testimonials = [
