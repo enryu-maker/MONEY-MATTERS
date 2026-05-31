@@ -3,9 +3,8 @@ import { Logo } from "./Logo";
 import { MessageCircle, Phone } from "lucide-react";
 import { aboutNav, site } from "@/lib/site-data";
 
-const homeLink = { label: "Home", href: "/" } as const;
-
 const navigateLinks = [
+  { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Calculator", href: "/calculator" },
   { label: "Blog", href: "/blog" },
@@ -18,12 +17,11 @@ export function Footer() {
     <footer className="mt-auto border-t hairline bg-background">
       <div className="mx-auto max-w-7xl px-4 pb-[max(6rem,calc(4.5rem+env(safe-area-inset-bottom)))] pt-10 md:px-6 md:pb-10 md:pt-14 lg:pb-10">
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-10">
-          {/* Brand */}
           <div className="lg:col-span-5">
             <Logo size="footer" />
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Money Matters Mortgage Brokers is affiliated with major banks across the UAE. Licensed
-              under the Dubai Economy Department since {site.founded}.
+              Money Matters Mortgage Brokers is affiliated with major banks across the UAE.
+              Licensed under the Dubai Economy Department since {site.founded}.
             </p>
             <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
               <a
@@ -45,60 +43,46 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links + contact */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-7 lg:gap-10">
-            <div className="grid grid-cols-2 gap-6 sm:col-span-1">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
-                  Navigate
-                </p>
-                <ul className="mt-4 space-y-2.5">
-                  {navigateLinks.map((l) => (
-                    <li key={l.label}>
-                      <Link
-                        href={l.href}
-                        className="inline-flex min-h-9 items-center text-sm text-muted-foreground hover:text-primary"
-                      >
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
-                  Home
-                </p>
-                <ul className="mt-4 space-y-2.5">
-                  <li>
+          <div className="grid grid-cols-2 gap-8 sm:gap-10 lg:col-span-7 lg:grid-cols-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
+                Navigate
+              </p>
+              <ul className="mt-4 space-y-2.5">
+                {navigateLinks.map((l) => (
+                  <li key={l.href}>
                     <Link
-                      href={homeLink.href}
-                      className="inline-flex min-h-9 items-center text-sm font-medium text-foreground hover:text-primary"
+                      href={l.href}
+                      className={`inline-flex min-h-9 items-center text-sm hover:text-primary ${
+                        l.href === "/" ? "font-medium text-foreground" : "text-muted-foreground"
+                      }`}
                     >
-                      {homeLink.label}
+                      {l.label}
                     </Link>
                   </li>
-                </ul>
-                <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-foreground">
-                  About
-                </p>
-                <ul className="mt-3 space-y-2.5">
-                  {aboutNav.map((l) => (
-                    <li key={l.href}>
-                      <Link
-                        href={l.href}
-                        className="inline-flex min-h-9 items-center text-sm text-muted-foreground hover:text-primary"
-                      >
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                ))}
+              </ul>
             </div>
 
             <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
+                About
+              </p>
+              <ul className="mt-4 space-y-2.5">
+                {aboutNav.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="inline-flex min-h-9 items-center text-sm text-muted-foreground hover:text-primary"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="col-span-2 sm:col-span-1">
               <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
                 Contact
               </p>
@@ -119,7 +103,7 @@ export function Footer() {
                 <li>
                   <a
                     href={`mailto:${site.email}`}
-                    className="inline-flex min-h-9 items-center break-all hover:text-primary"
+                    className="inline-flex min-h-9 items-center break-all font-medium text-foreground hover:text-primary"
                   >
                     {site.email}
                   </a>
@@ -129,11 +113,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t hairline pt-8 text-xs text-muted-foreground md:mt-12">
+        <div className="mt-10 flex flex-col gap-4 border-t hairline pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:mt-12">
           <p className="leading-relaxed">
             © {new Date().getFullYear()} {site.name} Mortgage Brokers · All rights reserved
           </p>
-          <ul className="flex flex-wrap gap-x-4 gap-y-2">
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
             <li>
               <a
                 href={site.social.facebook}
@@ -165,7 +149,12 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href={site.privacyUrl} className="inline-flex min-h-9 items-center hover:text-primary">
+              <a
+                href={site.privacyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-9 items-center hover:text-primary"
+              >
                 Privacy Policy
               </a>
             </li>

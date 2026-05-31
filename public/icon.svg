@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Money Matters">
+  <rect width="32" height="32" rx="7" fill="#FCFAF8"/>
+  <path
+    fill="#C41E2A"
+    d="M5.2 24.5V7.5h3.4v9.8l5.2-1.6V7.5h3.3v17h-3.3v-7.6l-5.2 1.6v6h-3.4z"
+  />
+</svg>

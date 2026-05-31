@@ -124,7 +124,7 @@ export const team = [
   },
   {
     name: "Rekha Rajendran",
-    role: "Mortgage Advisor",
+    role: "Admin Officer",
     image: "/team/rekha.jpeg",
     bio: "Results-driven Administrative Officer with experience supporting senior management across India and the UAE. She coordinates operations and events with discretion, and works effectively in fast-paced environments.",
   }, 

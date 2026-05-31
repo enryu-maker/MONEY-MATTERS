@@ -14,10 +14,10 @@ const sizes = {
     className: "h-9 w-auto max-w-[10.5rem] sm:max-w-[11.5rem] md:h-10 md:max-w-[13rem]",
   },
   footer: {
-    src: "/logo-from-pdf.png",
-    width: 250,
-    height: 250,
-    className: "h-[4.25rem] w-auto max-w-[10.5rem] object-cover object-left md:h-[4.75rem] md:max-w-[11.5rem]",
+    src: "/logo-full.png",
+    width: 200,
+    height: 140,
+    className: "h-14 w-auto max-w-[10rem] object-contain object-left sm:max-w-[11rem]",
   },
 } as const;
 
