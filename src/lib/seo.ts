@@ -129,7 +129,7 @@ export const rootMetadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
-    languages: { "en-AE": siteUrl, en: siteUrl },
+    languages: { "en-AE": siteUrl },
   },
   openGraph: {
     type: "website",

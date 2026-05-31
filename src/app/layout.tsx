@@ -32,8 +32,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-AE" className={`h-full antialiased ${inter.variable} ${urbanist.variable}`}>
-      <body className="min-h-full flex flex-col">
+    <html
+      lang="en-AE"
+      suppressHydrationWarning
+      className={`h-full antialiased ${inter.variable} ${urbanist.variable}`}
+    >
+      <body suppressHydrationWarning className="min-h-full flex flex-col">
         <JsonLd data={globalJsonLdGraph()} />
         {children}
       </body>

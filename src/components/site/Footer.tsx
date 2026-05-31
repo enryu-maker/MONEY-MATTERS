@@ -114,7 +114,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t hairline pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:mt-12">
-          <p className="leading-relaxed">
+          <p className="leading-relaxed" suppressHydrationWarning>
             © {new Date().getFullYear()} {site.name} Mortgage Brokers · All rights reserved
           </p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
