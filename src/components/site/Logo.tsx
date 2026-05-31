@@ -14,10 +14,10 @@ const sizes = {
     className: "h-9 w-auto max-w-[10.5rem] sm:max-w-[11.5rem] md:h-10 md:max-w-[13rem]",
   },
   footer: {
-    src: "/logo-full.png",
-    width: 200,
-    height: 140,
-    className: "h-[4.25rem] w-auto max-w-[10.5rem] object-contain object-left md:h-[4.75rem] md:max-w-[11.5rem]",
+    src: "/logo-from-pdf.png",
+    width: 250,
+    height: 250,
+    className: "h-[4.25rem] w-auto max-w-[10.5rem] object-cover object-left md:h-[4.75rem] md:max-w-[11.5rem]",
   },
 } as const;
 
@@ -37,6 +37,7 @@ export function Logo({ className = "", size = "header" }: LogoProps) {
         height={height}
         className={sizeClass}
         priority={size === "header"}
+        loading="eager"
       />
     </Link>
   );
