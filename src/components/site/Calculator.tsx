@@ -250,6 +250,25 @@ export function Calculator() {
     return { emi, totalPay, totalInt, schedule, months: monthCount };
   }, [loanAmount, rate, tenureMonths]);
 
+  const resaleCosts = useMemo(() => {
+    const dldFees = price * 0.04;
+    const mortgageRegistration = loanAmount * 0.0025;
+    const agencyFees = price * 0.02;
+    const trusteeBase = price >= 500_000 ? 4000 : 0;
+    const trusteeVat = trusteeBase * 0.05;
+    const trusteeTotal = trusteeBase + trusteeVat;
+    const total = dldFees + mortgageRegistration + agencyFees + trusteeTotal;
+    return {
+      dldFees,
+      mortgageRegistration,
+      agencyFees,
+      trusteeBase,
+      trusteeVat,
+      trusteeTotal,
+      total,
+    };
+  }, [price, loanAmount]);
+
   const hasSchedule = schedule.length > 0 && loanAmount > 0;
 
   useEffect(() => {
@@ -348,6 +367,28 @@ export function Calculator() {
                 <ResultRow label="Total interest" value={hasSchedule ? AED(totalInt) : "—"} />
                 <ResultRow label="Total payable" value={hasSchedule ? AED(totalPay) : "—"} bold />
               </dl>
+
+              <div className="mt-7 rounded-2xl border border-primary-foreground/20 bg-primary-foreground/10 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">
+                  Other affiliated cost for resale transaction
+                </p>
+                <dl className="mt-3 space-y-2 text-sm">
+                  <ResultRow label="DLD fees (4% of property value)" value={hasSchedule ? AED(resaleCosts.dldFees) : "—"} />
+                  <ResultRow
+                    label="Mortgage registration (0.25% of loan amount)"
+                    value={hasSchedule ? AED(resaleCosts.mortgageRegistration) : "—"}
+                  />
+                  <ResultRow
+                    label="Real estate agency fees (2% of property value)"
+                    value={hasSchedule ? AED(resaleCosts.agencyFees) : "—"}
+                  />
+                  <ResultRow
+                    label="Trustee fees (AED 4,000 + 5% VAT) (≥ AED 500,000)"
+                    value={hasSchedule ? AED(resaleCosts.trusteeTotal) : "—"}
+                  />
+                  <ResultRow label="Total" value={hasSchedule ? AED(resaleCosts.total) : "—"} bold />
+                </dl>
+              </div>
 
               <button
                 type="button"
@@ -607,15 +648,6 @@ function MoneyControl({
   return (
     <div className="space-y-3">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
-      <CalcSlider
-        label={label}
-        min={sliderMin}
-        max={sliderMax}
-        step={sliderStep}
-        value={sliderValue}
-        displayValue={value}
-        onChange={onChange}
-      />
       <div className="calc-field-inputs">
         <TapToEditField
           label={label}
@@ -630,11 +662,6 @@ function MoneyControl({
           }
         />
       </div>
-      {value > sliderMax && (
-        <p className="text-xs text-muted-foreground">
-          Slider tops at {AED(sliderMax)} — your entered amount is used for EMI.
-        </p>
-      )}
     </div>
   );
 }
@@ -676,15 +703,6 @@ function PercentControl({
   return (
     <div className="space-y-3">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
-      <CalcSlider
-        label={label}
-        min={sliderMin}
-        max={sliderMax}
-        step={sliderStep}
-        value={sliderValue}
-        displayValue={value}
-        onChange={(v) => onChange(Math.round(v * 100) / 100)}
-      />
       <div className="calc-field-inputs">
         <TapToEditField
           label={label}
@@ -759,16 +777,6 @@ function DownPaymentControl({
       </p>
       <p className="text-xs text-muted-foreground">of {AED(price)} property value</p>
 
-      <CalcSlider
-        label="Down payment"
-        min={0}
-        max={100}
-        step={0.5}
-        value={sliderPct}
-        displayValue={percent}
-        onChange={onPercentChange}
-      />
-
       <div className="calc-field-inputs grid gap-3 sm:grid-cols-2">
         <TapToEditField
           label="Down payment percentage"
@@ -838,15 +846,6 @@ function MonthsControl({
   return (
     <div className="space-y-3">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
-      <CalcSlider
-        label={label}
-        min={sliderMin}
-        max={sliderMax}
-        step={sliderStep}
-        value={sliderValue}
-        displayValue={value}
-        onChange={onChange}
-      />
       <div className="calc-field-inputs">
         <TapToEditField
           label={label}
@@ -861,11 +860,6 @@ function MonthsControl({
           }
         />
       </div>
-      {value > sliderMax && (
-        <p className="text-xs text-muted-foreground">
-          Slider tops at {maxMonths} months — your entered tenure is used for EMI.
-        </p>
-      )}
     </div>
   );
 }

@@ -7,13 +7,13 @@ import { AnimateIn } from "./AnimateIn";
 
 function PartnerLogo({ name, logo }: { name: string; logo: string }) {
   return (
-    <div className="flex h-14 w-36 shrink-0 items-center justify-center px-2 md:h-16 md:w-44">
+    <div className="flex h-16 w-44 shrink-0 items-center justify-center px-3 md:h-20 md:w-56">
       <Image
         src={logo}
         alt={name}
-        width={160}
-        height={64}
-        className="max-h-10 w-auto max-w-[9rem] object-contain opacity-80 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 md:max-h-12 md:max-w-[10.5rem]"
+        width={200}
+        height={80}
+        className="max-h-12 w-auto max-w-[11rem] object-contain md:max-h-14 md:max-w-[13rem]"
       />
     </div>
   );

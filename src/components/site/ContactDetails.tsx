@@ -26,7 +26,7 @@ export function ContactDetails() {
             <p className="mt-2 font-display text-xl font-semibold leading-snug md:text-2xl">
               {site.phoneLandline}
             </p>
-            <p className="mt-auto pt-4 text-sm text-muted-foreground">Sun – Thu · 9am to 6pm GST</p>
+            <p className="mt-auto pt-4 text-sm text-muted-foreground">Mon-Fri 9 am to 6 pm GST</p>
           </motion.a>
         </StaggerItem>
         <StaggerItem className="h-full">

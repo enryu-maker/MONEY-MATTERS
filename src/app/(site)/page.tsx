@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
-      <BankMarquee label={`Partnered with major UAE banks since ${site.founded}`} />
+      <BankMarquee label="Major Banking Partner" />
       <ServicesPreview />
       <GallerySection />
       <Testimonials />

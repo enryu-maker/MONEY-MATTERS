@@ -13,6 +13,7 @@ export function TopBar() {
             <Phone className="h-3.5 w-3.5" aria-hidden />
             {site.phoneLandline}
           </a>
+          <span className="text-primary-foreground/80">Mon-Fri 9 am to 6 pm GST</span>
           <a
             href={`mailto:${site.email}`}
             className="inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"

@@ -63,17 +63,35 @@ export const services = [
     description:
       "Finance against completed or under-construction commercial assets — up to 60% of property value, flexible payment plans, tenure up to 15 years, and structures including lease rental discounting.",
   },
+  {
+    title: "Corporate & SME Lending",
+    summary: "Growth funding for businesses",
+    description:
+      "Flexible lending solutions for corporates and SMEs — structured to support expansion, working capital needs, and growth objectives with clear terms and competitive pricing.",
+  },
+  {
+    title: "Off-Plan Loan / Construction Loan",
+    summary: "Funding for under-construction properties",
+    description:
+      "Financing options for off-plan and construction-stage purchases, aligned to developer payment milestones and lender policy — with guidance on eligibility, documentation, and approvals.",
+  },
+  {
+    title: "Loan Against Property (LAP)",
+    summary: "Unlock funds using property as collateral",
+    description:
+      "Loan Against Property (LAP) is a secured loan that allows property owners to borrow funds by pledging their residential, commercial, or rented property as collateral. The loan amount is based on the property's value and the borrower's repayment capacity. LAP offers competitive interest rates and flexible repayment terms, making it a suitable financing option for business expansion, working capital requirements, debt consolidation, education, medical expenses, or other personal and business needs.",
+  },
 ] as const;
 
 /** Logos from https://moneymatters.ae/ partner carousel */
 export const bankPartners = [
-  { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
+  // { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
   { name: "Ajman Bank", logo: "/partners/ajman.png" },
-  { name: "Commercial Bank of Dubai", logo: "/partners/cbd.jpg" },
+  { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg" }, 
   { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
   { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpg" },
-  { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
-  { name: "RAKBANK", logo: "/partners/rakbank.jpg" },
+  { name: "HSBC", logo: "/partners/HSBC.png" },
+  // { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
   { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
   { name: "Emirates Islamic", logo: "/partners/emirates-islamic-20260602.png" },
@@ -82,7 +100,7 @@ export const bankPartners = [
   { name: "National Bank of Oman", logo: "/partners/nbo-20260602.png" },
   { name: "Saudi National Bank", logo: "/partners/snb-20260602.png" },
   { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png" },
-  { name: "Abu Dhabi Commercial Bank (ADCB)", logo: "/partners/adcb.jpg" },
+  // { name: "Abu Dhabi Commercial Bank (ADCB)", logo: "/partners/adcb.jpg" },
 ] as const;
 
 export const affiliatePartners = [
@@ -132,7 +150,7 @@ export const team = [
     name: "Rekha Rajendran",
     role: "Admin Officer",
     image: "/team/rekha.jpeg",
-    bio: "Results-driven Administrative Officer with experience supporting senior management across India and the UAE. She coordinates operations and events with discretion, and works effectively in fast-paced environments.",
+    bio: "Results-oriented Administrative Officer with experience in Banking operations. Skilled in executive support, process coordination, customer service, and maintaining efficient day-to-day operations in fast-paced professional environments.",
   }, 
 ] as const;
 
@@ -211,9 +229,5 @@ export const faqs = [
   {
     q: "I am self-employed. Can I get a mortgage?",
     a: "Yes. Banks have different criteria for self-employed applicants. We work with lenders that look favourably at self-employed profiles and structure applications accordingly.",
-  },
-  {
-    q: "Do you charge a fee?",
-    a: "Our mortgage advisory service is provided without a separate fee to you. We are compensated by lending partners, which allows us to compare options across the market on your behalf.",
   },
 ] as const;

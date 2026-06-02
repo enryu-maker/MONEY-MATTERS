@@ -22,11 +22,10 @@ import { AboutMegaMenu } from "./AboutMegaMenu";
 import { Logo } from "./Logo";
 import { site } from "@/lib/site-data";
 
-const mainLinks: { label: string; href: string; icon: LucideIcon }[] = [
+const mainLinks: { label: string; href: string; icon?: LucideIcon }[] = [
   { label: "Home", href: "/", icon: Home },
   { label: "Services", href: "/services", icon: Landmark },
   { label: "Calculator", href: "/calculator", icon: Calculator },
-  { label: "Blog", href: "/blog", icon: BookOpen },
   { label: "FAQ's", href: "/faq", icon: HelpCircle },
   { label: "Contact", href: "/contact", icon: Mail },
 ];
@@ -139,7 +138,7 @@ export function Navbar({ open, onOpenChange }: NavbarProps) {
           "relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
           active
             ? "bg-background text-foreground shadow-sm"
-            : "text-muted-foreground hover:text-foreground",
+            : "text-muted-foreground hover:text-primary",
         )}
       >
         {label}
@@ -196,7 +195,7 @@ export function Navbar({ open, onOpenChange }: NavbarProps) {
                   "inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
                   aboutActive
                     ? "bg-background text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground",
+                    : "text-muted-foreground hover:text-primary",
                 )}
               >
                 About
@@ -465,7 +464,7 @@ function MobileNavLink({
 }: {
   href: string;
   label: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   active: boolean;
   onNavigate: () => void;
 }) {
@@ -488,7 +487,7 @@ function MobileNavLink({
               transition={spring}
             />
           )}
-          <MobileIconBox icon={Icon} active={active} />
+          {Icon ? <MobileIconBox icon={Icon} active={active} /> : null}
           <span className="relative">{label}</span>
           {active && (
             <motion.span

@@ -19,14 +19,14 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto flex min-h-[calc(88svh-5rem)] max-w-7xl flex-col justify-between px-4 py-16 md:px-6">
-        <div className="flex flex-col justify-center pt-4">
+        <div className="flex flex-col justify-center">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-white/90 backdrop-blur-sm"
+          className="mb-5 inline-flex w-fit items-center uppercase gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-white/90 backdrop-blur-sm"
         >
-          Trusted Mortgage Consultancy in UAE
+          oldest mortgage broker firms in the UAE
         </motion.p>
 
         <motion.h1
@@ -74,13 +74,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.32 }}
-          className="mt-10 w-full max-w-3xl pb-2"
+          className="mt-10 w-full max-w-5xl pb-2"
         >
-          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-white/20 bg-black/55 px-4 py-5 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md sm:gap-6 sm:px-6 sm:py-6 md:max-w-2xl">
+          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-white/20 bg-black/55 px-4 py-5 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md sm:grid-cols-[1.35fr_1fr_1fr] sm:gap-6 sm:px-6 sm:py-6 md:max-w-2xl">
             {[
-              { v: String(site.founded), l: "Serving UAE since" },
-              { v: "DED", l: "Licensed brokers" },
-              { v: "Major", l: "Bank partners" },
+              { v: "UAE presence", l: `Since ${site.founded}` },
+              { v: "RERA", l: "Certified broker" },
+              { v: "50+ yrs", l: "Collective experience" },
             ].map((s, i) => (
               <motion.div
                 key={s.l}
@@ -89,7 +89,7 @@ export function Hero() {
                 transition={{ duration: 0.45, delay: 0.38 + i * 0.08 }}
                 className="text-center sm:text-left"
               >
-                <div className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl">
+                <div className="font-display text-2xl font-bold tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl whitespace-nowrap">
                   {s.v}
                 </div>
                 <div className="mt-1.5 text-[11px] font-medium uppercase tracking-wider text-white/90 sm:text-xs">
