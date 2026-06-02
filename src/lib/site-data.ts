@@ -23,7 +23,7 @@ export const about = {
   intro:
     "Money Matters is a boutique mortgage consultancy currently affiliated with major banks within the financial sector in the UAE, specifically dealing in mortgages of all kinds of properties (Retail & Corporate – Residential & Commercial). We help you navigate the wide world of mortgage overlays.",
   detail:
-    "Based in Business Bay, Dubai, Money Matters Mortgage Brokers is a licensed entity under the Dubai Economy Department. Since 2016, we have been providing sound professional advice to an ever-increasing clientele on a wide variety of mortgage offers and products. We work directly with our clients, catering to their specific needs pertaining to mortgage loans.",
+    "Founded in 2016, we are proud to be one of the oldest mortgage broker firms in the UAE. We are officially licensed by the Dubai Economic Department, Dubai, and operate as fully certified RERA Mortgage Brokers.",
 } as const;
 
 export const services = [
@@ -118,7 +118,7 @@ export const team = [
   // },
   {
     name: "Mohammed Sarbar Ahmed",
-    role: "Mortgage Specialist",
+    role: "Sales Manager",
     image: "/team/sarbar.jpeg",
     bio: "Over 25 years in banking including Barclays, DIB, Mashreq, Citi, and Noor Bank — with 19 years in the UAE. Sarbar guides first-time buyers and seasoned investors through tailored mortgage solutions.",
   },

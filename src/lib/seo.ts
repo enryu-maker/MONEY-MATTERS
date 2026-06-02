@@ -46,7 +46,7 @@ export const routes = [
 const defaultOgImage = "/logo-full.png";
 
 export const defaultDescription =
-  "Licensed Dubai mortgage brokers since 2016. Compare home loans from major UAE banks — resale, buyout, equity release, non-resident & commercial finance. Free expert advice in Business Bay.";
+  "Founded in 2016, we are proud to be one of the oldest mortgage broker firms in the UAE. Compare home loans from major UAE banks — resale, buyout, equity release, non-resident & commercial finance. Free expert advice in Business Bay.";
 
 type PageMetaInput = {
   /** Browser tab / SERP title (template adds brand suffix in layout) */
@@ -297,7 +297,7 @@ export const pageSeo = {
   about: buildPageMetadata({
     title: "About Us — Licensed Mortgage Brokers in Dubai Since 2016",
     description:
-      "Money Matters is a Dubai Economy Department–licensed mortgage consultancy in Business Bay. Expert UAE property finance for residents, expats & investors since 2016.",
+      "Founded in 2016, we are proud to be one of the oldest mortgage broker firms in the UAE. Money Matters is a Dubai Economic Department, Dubai licensed mortgage consultancy and fully certified RERA Mortgage Broker.",
     path: "/about",
     keywords: ["licensed mortgage broker Dubai", "Business Bay mortgage consultant"],
   }),

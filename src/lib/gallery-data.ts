@@ -5,6 +5,11 @@ export const galleryImages = [
     caption: "Brokers Summit 2022",
   },
   {
+    src: "/gallery/team-arab-bank.png",
+    alt: "Money Matters team with Arab Bank representatives in the Dubai office",
+    caption: "Team Arab Bank",
+  },
+  {
     src: "/gallery/team-office-1.png",
     alt: "Money Matters mortgage team at the Dubai office",
     caption: "DIB Team",

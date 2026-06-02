@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import consult from "@/assets/consult.jpg";
 import { about, site } from "@/lib/site-data";
 import { AnimateIn } from "./AnimateIn";
 import { Stagger, StaggerItem } from "./Stagger";
@@ -18,7 +17,7 @@ export function AboutIntro() {
             transition={spring}
           >
             <img
-              src={consult.src}
+              src="/about/about-hero.png"
               alt="Money Matters mortgage consultants in Dubai, UAE"
               className="aspect-[4/3] w-full object-cover"
             />
@@ -27,8 +26,10 @@ export function AboutIntro() {
         <AnimateIn variant="fadeRight" delay={0.08}>
           <h2 className="font-display text-3xl font-semibold md:text-4xl">About Us</h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">{about.intro}</p>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">{about.detail}</p>
-          <Stagger className="mt-8 grid grid-cols-2 gap-4">
+          <div className="mt-5 rounded-2xl border border-primary/20 bg-primary/5 p-4 md:p-5">
+            <p className="text-sm font-medium leading-relaxed text-foreground md:text-base">{about.detail}</p>
+          </div>
+          <Stagger className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <StaggerItem>
               <motion.div
                 initial="rest"
@@ -47,9 +48,11 @@ export function AboutIntro() {
                 variants={cardHover}
                 className="rounded-xl border hairline bg-card p-4"
               >
-                <dt className="text-xs uppercase tracking-widest text-muted-foreground">Licensed</dt>
-                <dd className="mt-1 font-display text-lg font-semibold">DED · Dubai</dd>
-              </motion.div>
+                <dt className="text-xs uppercase tracking-widest text-muted-foreground">Licensed / Certified</dt>
+                <ul className="mt-1 font-display text-lg font-semibold">
+                  <li>Dubai Economic Department</li>
+                  <li>RERA Mortgage Brokers</li>
+                </ul>              </motion.div>
             </StaggerItem>
           </Stagger>
         </AnimateIn>

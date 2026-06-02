@@ -9,7 +9,7 @@ export function ContactForm() {
   return (
     <section className="section-pad section-bone border-t hairline">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-4xl">
           <AnimateIn>
             <div className="text-center md:text-left">
               <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
@@ -28,20 +28,53 @@ export function ContactForm() {
               onSubmit={(e) => {
                 e.preventDefault();
                 const fd = new FormData(e.currentTarget);
+                const monthlyIncome = Number(fd.get("monthlyIncome") ?? 0);
+
+                if (!Number.isFinite(monthlyIncome) || monthlyIncome < 10000) {
+                  alert("Minimum monthly income should be AED 10,000.");
+                  return;
+                }
+
                 const body = [
                   `Name: ${fd.get("name")}`,
-                  `Phone: ${fd.get("phone")}`,
-                  `Email: ${fd.get("email")}`,
-                  `Location: ${fd.get("location")}`,
+                  `Contact No: ${fd.get("phone")}`,
+                  `Email ID: ${fd.get("email")}`,
+                  `Monthly Income (AED): ${monthlyIncome}`,
+                  `Employment Status: ${fd.get("employmentStatus")}`,
+                  `Specific Requirements / Comments: ${fd.get("comments") || "N/A"}`,
                 ].join("\n");
                 window.location.href = `mailto:${site.email}?subject=Consultation%20Request&body=${encodeURIComponent(body)}`;
               }}
             >
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-3">
                 <Field label="Full Name" name="name" required className="sm:col-span-1" />
-                <Field label="Phone Number" name="phone" type="tel" required />
-                <Field label="Email" name="email" type="email" required />
-                <Field label="Location" name="location" placeholder="e.g. Dubai, UAE" />
+                <Field label="Contact No" name="phone" type="tel" required />
+                <Field label="Email ID" name="email" type="email" required />
+                <Field
+                  label="What is your monthly income? (AED)"
+                  name="monthlyIncome"
+                  type="number"
+                  required
+                  min={10000}
+                  placeholder="10000"
+                />
+                <SelectField
+                  label="What is your employment status?"
+                  name="employmentStatus"
+                  required
+                  options={[
+                    { value: "Employed", label: "Employed" },
+                    { value: "Self-Employed", label: "Self-Employed" },
+                    { value: "Business Owner", label: "Business Owner" },
+                    { value: "Other", label: "Other" },
+                  ]}
+                />
+                <TextAreaField
+                  label="Any specific requirements / Comments"
+                  name="comments"
+                  className="sm:col-span-3"
+                  rows={4}
+                />
               </div>
 
               <motion.button
@@ -81,6 +114,7 @@ function Field({
   required,
   placeholder,
   className = "",
+  min,
 }: {
   label: string;
   name: string;
@@ -88,6 +122,7 @@ function Field({
   required?: boolean;
   placeholder?: string;
   className?: string;
+  min?: number;
 }) {
   const id = `contact-${name}`;
 
@@ -103,9 +138,84 @@ function Field({
         type={type}
         required={required}
         placeholder={placeholder}
+        min={min}
         whileFocus={{ scale: 1.005 }}
         transition={spring}
         className="mt-2 min-h-[3rem] w-full rounded-xl border hairline bg-background px-4 py-3 text-sm text-foreground outline-none transition-shadow placeholder:text-muted-foreground/60 focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
+      />
+    </div>
+  );
+}
+
+function SelectField({
+  label,
+  name,
+  required,
+  options,
+  className = "",
+}: {
+  label: string;
+  name: string;
+  required?: boolean;
+  options: { value: string; label: string }[];
+  className?: string;
+}) {
+  const id = `contact-${name}`;
+
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="block text-sm font-medium text-foreground">
+        {label}
+        {required && <span className="text-primary"> *</span>}
+      </label>
+      <motion.select
+        id={id}
+        name={name}
+        required={required}
+        defaultValue={options[0]?.value ?? ""}
+        whileFocus={{ scale: 1.005 }}
+        transition={spring}
+        className="mt-2 min-h-[3rem] w-full rounded-xl border hairline bg-background px-4 py-3 text-sm text-foreground outline-none transition-shadow focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </motion.select>
+    </div>
+  );
+}
+
+function TextAreaField({
+  label,
+  name,
+  required,
+  className = "",
+  rows = 4,
+}: {
+  label: string;
+  name: string;
+  required?: boolean;
+  className?: string;
+  rows?: number;
+}) {
+  const id = `contact-${name}`;
+
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="block text-sm font-medium text-foreground">
+        {label}
+        {required && <span className="text-primary"> *</span>}
+      </label>
+      <motion.textarea
+        id={id}
+        name={name}
+        required={required}
+        rows={rows}
+        whileFocus={{ scale: 1.003 }}
+        transition={spring}
+        className="mt-2 w-full rounded-xl border hairline bg-background px-4 py-3 text-sm text-foreground outline-none transition-shadow placeholder:text-muted-foreground/60 focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
       />
     </div>
   );
