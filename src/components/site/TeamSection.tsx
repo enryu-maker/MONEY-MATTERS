@@ -102,7 +102,7 @@ function LeaderCard({ member, expanded }: { member: Member; expanded: boolean })
           src={member.image}
           alt={`${member.name} — ${member.role}`}
           fill
-          className="object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-105"
+          className="object-cover object-[center_18%] grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0"
           sizes="(max-width: 640px) 100vw, 176px"
         />
         <div
@@ -142,7 +142,7 @@ function AdvisorCard({ member, expanded }: { member: Member; expanded: boolean }
           src={member.image}
           alt={`${member.name} — ${member.role}`}
           fill
-          className="object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-105"
+          className="object-cover object-[center_18%] grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0"
           sizes="112px"
         />
       </div>

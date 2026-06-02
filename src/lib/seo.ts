@@ -40,6 +40,7 @@ export const routes = [
   { path: "/about", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/about/team", priority: 0.75, changeFrequency: "monthly" as const },
   { path: "/about/partners", priority: 0.7, changeFrequency: "monthly" as const },
+  { path: "/privacy-policy", priority: 0.6, changeFrequency: "yearly" as const },
 ] as const;
 
 const defaultOgImage = "/logo-full.png";
@@ -344,5 +345,12 @@ export const pageSeo = {
     description: `Visit ${site.address}. Call ${site.phoneLandline}, WhatsApp ${site.phone}, or email ${site.email}. Free mortgage advice for UAE property buyers.`,
     path: "/contact",
     keywords: ["mortgage consultation Dubai", "contact mortgage broker UAE"],
+  }),
+  privacy: buildPageMetadata({
+    title: "Privacy Policy",
+    description:
+      "Read how Money Matters collects, uses, and protects personal information submitted through our website and mortgage consultation forms.",
+    path: "/privacy-policy",
+    keywords: ["privacy policy", "data protection", "Money Matters UAE"],
   }),
 } as const;

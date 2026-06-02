@@ -67,16 +67,22 @@ export const services = [
 
 /** Logos from https://moneymatters.ae/ partner carousel */
 export const bankPartners = [
+  { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
+  { name: "Ajman Bank", logo: "/partners/ajman.png" },
+  { name: "Commercial Bank of Dubai", logo: "/partners/cbd.jpg" },
+  { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
   { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpg" },
   { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
-  { name: "ADCB", logo: "/partners/adcb.jpg" },
-  { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
-  { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
-  { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
-  { name: "ADIB", logo: "/partners/adib.jpg" },
   { name: "RAKBANK", logo: "/partners/rakbank.jpg" },
-  { name: "Commercial Bank of Dubai", logo: "/partners/cbd.jpg" },
-  { name: "Ajman Bank", logo: "/partners/ajman.png" },
+  { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
+  { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
+  { name: "Emirates Islamic", logo: "/partners/emirates-islamic-20260602.png" },
+  { name: "Sharjah Islamic Bank", logo: "/partners/sharjah-islamic-20260602.png" },
+  { name: "Arab Bank", logo: "/partners/arab-bank-20260602.png" },
+  { name: "National Bank of Oman", logo: "/partners/nbo-20260602.png" },
+  { name: "Saudi National Bank", logo: "/partners/snb-20260602.png" },
+  { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png" },
+  { name: "Abu Dhabi Commercial Bank (ADCB)", logo: "/partners/adcb.jpg" },
 ] as const;
 
 export const affiliatePartners = [
@@ -101,7 +107,7 @@ export const team = [
   {
     name: "Mala Mehra",
     role: "General Manager",
-    image: "/team/mala.png",
+    image: "/team/mala.jpg",
     bio: "Mala brings banking experience since 2000, corporate law expertise, and an MBA. She ensures every transaction meets compliance while guiding clients with empathy from inception through completion.",
   },
   // {
@@ -113,7 +119,7 @@ export const team = [
   {
     name: "Mohammed Sarbar Ahmed",
     role: "Mortgage Specialist",
-    image: "/team/sarbar.png",
+    image: "/team/sarbar.jpeg",
     bio: "Over 25 years in banking including Barclays, DIB, Mashreq, Citi, and Noor Bank — with 19 years in the UAE. Sarbar guides first-time buyers and seasoned investors through tailored mortgage solutions.",
   },
   {

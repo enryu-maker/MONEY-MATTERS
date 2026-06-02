@@ -149,14 +149,9 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a
-                href={site.privacyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-9 items-center hover:text-primary"
-              >
+              <Link href="/privacy-policy" className="inline-flex min-h-9 items-center hover:text-primary">
                 Privacy Policy
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

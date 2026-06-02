@@ -18,7 +18,7 @@ export default function PartnersPage() {
       <PageBanner
         eyebrow="About / Partners"
         title="Our partners"
-        description="Affiliated with major UAE banks since 2016 — plus trusted industry partners across the region."
+        description="Partnered with major UAE banks since 2016 — plus trusted industry partners across the region."
       />
       <PartnersSection />
     </main>

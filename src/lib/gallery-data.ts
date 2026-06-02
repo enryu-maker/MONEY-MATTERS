@@ -1,5 +1,10 @@
 export const galleryImages = [
   {
+    src: "/gallery/brokers-summit.jpeg",
+    alt: "Money Matters mortgage team at the Dubai office",
+    caption: "Brokers Summit 2022",
+  },
+  {
     src: "/gallery/team-office-1.png",
     alt: "Money Matters mortgage team at the Dubai office",
     caption: "DIB Team",
