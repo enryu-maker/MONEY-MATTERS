@@ -32,6 +32,6 @@ export const galleryImages = [
   {
     src: "/gallery/team-diwali.png",
     alt: "Money Matters team celebrating Diwali",
-    caption: "HSBC TEAM",
+    caption: "HSBC Diwali Event",
   },
 ] as const;

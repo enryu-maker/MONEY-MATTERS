@@ -7,7 +7,7 @@ const navigateLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Calculator", href: "/calculator" },
-  { label: "Blog", href: "/blog" },
+  // { label: "Blog", href: "/blog" },
   { label: "FAQ's", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];

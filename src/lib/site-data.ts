@@ -14,7 +14,7 @@ export const site = {
   privacyUrl: "https://moneymatters.ae/privacy-policy/",
   social: {
     facebook: "https://www.facebook.com/www.moneymatters.ae/",
-    instagram: "https://www.instagram.com/moneymatters_uae/",
+    instagram: "https://www.instagram.com/moneymattersmortgages",
     linkedin: "https://www.linkedin.com/company/moneymattersae/",
   },
 } as const;
@@ -52,10 +52,10 @@ export const services = [
       "No matter where you live, you can own freehold property in the UAE. We create tailor-made solutions for resale, off-plan, buyout, and equity release — with competitive rates up to 50% loan-to-value for overseas buyers purchasing completed property.",
   },
   {
-    title: "Corporate Mortgages",
+    title: "Land Financing & Construction Finance",
     summary: "For businesses and investors",
     description:
-      "Corporate mortgages are designed for businesses and investors who wish to purchase or refinance commercial, revenue-generating properties. Benefit from our expertise for smooth approvals, high loan amounts, flexible terms, and competitive rates.",
+      "Designed to help you secure the perfect plot or build your dream property with ease. We provide flexible financing options with structured repayment plans and stage-wise disbursements to contractors",
   },
   {
     title: "Commercial Real Estate Financing",
@@ -70,7 +70,7 @@ export const services = [
       "Flexible lending solutions for corporates and SMEs — structured to support expansion, working capital needs, and growth objectives with clear terms and competitive pricing.",
   },
   {
-    title: "Off-Plan Loan / Construction Loan",
+    title: "Off-Plan Property Finance",
     summary: "Funding for under-construction properties",
     description:
       "Financing options for off-plan and construction-stage purchases, aligned to developer payment milestones and lender policy — with guidance on eligibility, documentation, and approvals.",
@@ -94,11 +94,11 @@ export const bankPartners = [
   // { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
   { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
-  { name: "Emirates Islamic", logo: "/partners/emirates-islamic-20260602.png" },
-  { name: "Sharjah Islamic Bank", logo: "/partners/sharjah-islamic-20260602.png" },
+  // { name: "Emirates Islamic", logo: "/partners/emirates-islamic-20260602.png" },
+  // { name: "Sharjah Islamic Bank", logo: "/partners/sharjah-islamic-20260602.png" },
   { name: "Arab Bank", logo: "/partners/arab-bank-20260602.png" },
-  { name: "National Bank of Oman", logo: "/partners/nbo-20260602.png" },
-  { name: "Saudi National Bank", logo: "/partners/snb-20260602.png" },
+  // { name: "National Bank of Oman", logo: "/partners/nbo-20260602.png" },
+  // { name: "Saudi National Bank", logo: "/partners/snb-20260602.png" },
   { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png" },
   // { name: "Abu Dhabi Commercial Bank (ADCB)", logo: "/partners/adcb.jpg" },
 ] as const;
