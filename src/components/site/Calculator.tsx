@@ -250,6 +250,11 @@ export function Calculator() {
     return { emi, totalPay, totalInt, schedule, months: monthCount };
   }, [loanAmount, rate, tenureMonths]);
 
+  const ltvPct = useMemo(() => {
+    if (price <= 0) return 0;
+    return (loanAmount / price) * 100;
+  }, [loanAmount, price]);
+
   const resaleCosts = useMemo(() => {
     const dldFees = price * 0.04;
     const mortgageRegistration = loanAmount * 0.0025;
@@ -319,7 +324,14 @@ export function Calculator() {
               />
             </FieldGroup>
 
-            <FieldGroup title="Loan amount">
+            <FieldGroup
+              title="Loan amount"
+              action={
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+                  LTV {ltvPct.toFixed(2)}%
+                </span>
+              }
+            >
               <MoneyControl
                 label="Loan amount"
                 value={loanAmount}
@@ -361,7 +373,10 @@ export function Calculator() {
                 {hasSchedule ? AED(emi) : "—"}
               </p>
               <dl className="mt-6 space-y-2.5 text-sm">
-                <ResultRow label="Loan amount" value={hasSchedule ? AED(loanAmount) : "—"} />
+                <ResultRow
+                  label="Loan amount"
+                  value={hasSchedule ? `${AED(loanAmount)} (${ltvPct.toFixed(2)}% LTV)` : "—"}
+                />
                 <ResultRow label="Interest rate" value={hasSchedule ? `${rate.toFixed(2)}% p.a.` : "—"} />
                 <ResultRow label="Tenure" value={hasSchedule ? `${months} months` : "—"} />
                 <ResultRow label="Total interest" value={hasSchedule ? AED(totalInt) : "—"} />
