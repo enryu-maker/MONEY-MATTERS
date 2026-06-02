@@ -34,7 +34,8 @@ export function ContactForm() {
               className="mt-8 rounded-2xl border hairline bg-card p-6 shadow-[var(--shadow-soft)] sm:p-8 md:p-10"
               onSubmit={async (e) => {
                 e.preventDefault();
-                const fd = new FormData(e.currentTarget);
+                const form = e.currentTarget;
+                const fd = new FormData(form);
                 const monthlyIncome = Number(fd.get("monthlyIncome") ?? 0);
 
                 if (!Number.isFinite(monthlyIncome) || monthlyIncome < 10000) {
@@ -57,16 +58,28 @@ export function ContactForm() {
                     headers: { Accept: "application/json" },
                   });
 
-                  if (!response.ok) {
-                    throw new Error("Failed to submit form");
+                  let payload: { ok?: boolean; errors?: { message?: string }[] } | null = null;
+                  try {
+                    payload = await response.json();
+                  } catch {
+                    payload = null;
                   }
 
-                  e.currentTarget.reset();
+                  if (!response.ok && payload?.ok !== true) {
+                    const errorMessage = payload?.errors?.[0]?.message;
+                    throw new Error(errorMessage || "Failed to submit form");
+                  }
+
+                  form.reset();
                   setStatusType("success");
                   setStatusMessage("Thanks! Your consultation request has been submitted.");
-                } catch {
+                } catch (error) {
                   setStatusType("error");
-                  setStatusMessage("Could not submit right now. Please try again in a moment.");
+                  setStatusMessage(
+                    error instanceof Error && error.message
+                      ? error.message
+                      : "Could not submit right now. Please try again in a moment.",
+                  );
                 } finally {
                   setIsSubmitting(false);
                 }
