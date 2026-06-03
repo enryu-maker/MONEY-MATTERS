@@ -91,7 +91,7 @@ export const bankPartners = [
   { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
   { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpg" },
   { name: "HSBC", logo: "/partners/HSBC.png" },
-  // { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
+  { name: "Dubai Islamic Bank", logo: "/partners/Dubai_Islamic_Bank.png" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
   { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
   // { name: "Emirates Islamic", logo: "/partners/emirates-islamic-20260602.png" },
