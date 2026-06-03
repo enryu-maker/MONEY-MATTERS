@@ -143,7 +143,7 @@ export const team = [
   {
     name: "Sebastian Tellis",
     role: "Mortgage Advisor",
-    image: "/team/sebastian.jpg",
+    image: "/team/sebastian.jpeg",
     bio: "13 years across ENBD, EIB, FAB, ADCB, CBD, Ajman Bank, and HDFC in the UAE. Sebastian combines deep product knowledge with cross-cultural relationship management.",
   },
   {
