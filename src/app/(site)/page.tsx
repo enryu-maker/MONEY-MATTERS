@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
-      <BankMarquee label="Major Banking Partner" />
+      <BankMarquee label="Major Banking Partners" />
       <ServicesPreview />
       <GallerySection />
       <Testimonials />

@@ -76,7 +76,7 @@ export const services = [
       "Financing options for off-plan and construction-stage purchases, aligned to developer payment milestones and lender policy — with guidance on eligibility, documentation, and approvals.",
   },
   {
-    title: "Loan Against Property (LAP)",
+    title: "Loan Against Property (LAP) / Rental Income",
     summary: "Unlock funds using property as collateral",
     description:
       "Loan Against Property (LAP) is a secured loan that allows property owners to borrow funds by pledging their residential, commercial, or rented property as collateral. The loan amount is based on the property's value and the borrower's repayment capacity. LAP offers competitive interest rates and flexible repayment terms, making it a suitable financing option for business expansion, working capital requirements, debt consolidation, education, medical expenses, or other personal and business needs.",
@@ -194,6 +194,14 @@ export const testimonials = [
 ] as const;
 
 export const faqs = [
+  {
+    q:"What is LTV?",
+    a:"LTV (Loan-to-Value) is the percentage of a property’s value that a bank finances through a home loan. It helps determine how much you need to pay as a down payment versus how much you can borrow."
+  },
+  {
+    q:"What is DBR?",
+    a:"DBR (Debt Burden Ratio) is the percentage of a person’s monthly income that goes towards repaying all existing loans and credit obligations, including the new proposed mortgage. It helps banks assess whether a borrower can comfortably manage additional debt. In the UAE, the typical DBR limit is 50% of monthly income, meaning total loan repayments should not exceed half of your salary."
+  },
   {
     q: "What do I need to get pre-approval for a mortgage loan?",
     a: "Salaried individuals need KYC documents (passport, visa, Emirates ID), six months of bank statements, and a salary certificate. Self-employed applicants need KYC documents, six months of personal and business bank statements, and a copy of their trade licence.",

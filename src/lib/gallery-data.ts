@@ -2,17 +2,17 @@ export const galleryImages = [
   {
     src: "/gallery/brokers-summit.jpeg",
     alt: "Money Matters mortgage team at the Dubai office",
-    caption: "Brokers Summit 2022",
+    caption: "Award Winner - Mashreq Bank Mortgage Broker Summit",
   },
   {
     src: "/gallery/team-arab-bank.png",
     alt: "Money Matters team with Arab Bank representatives in the Dubai office",
-    caption: "Team Arab Bank",
+    caption: "Office Visit by Team Arab Bank",
   },
   {
     src: "/gallery/team-office-1.png",
     alt: "Money Matters mortgage team at the Dubai office",
-    caption: "DIB Team",
+    caption: "Office Visit by Team DIB",
   },
   {
     src: "/gallery/team-festive-1.png",
@@ -27,7 +27,7 @@ export const galleryImages = [
   {
     src: "/gallery/team-office-2.png",
     alt: "Money Matters consultants in the meeting room",
-    caption: "CBD Team",
+    caption: "Office Visit by Team CBD",
   },
   {
     src: "/gallery/team-diwali.png",

@@ -12,7 +12,7 @@ const reasons = [
   },
   {
     n: "02",
-    title: "Major bank network",
+    title: "Major banking partners network",
     desc: "Affiliated with major banks in the UAE — we compare products so you can make an informed decision.",
   },
   {

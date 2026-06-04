@@ -186,28 +186,49 @@ function buildSchedule(loan: number, annualRate: number, months: number): Paymen
 }
 
 const TENURE_MAX_MONTHS = 300;
+const MIN_DOWN_PAYMENT_PCT = 20;
+
+function clampDownPaymentPct(pct: number) {
+  return Math.min(100, Math.max(MIN_DOWN_PAYMENT_PCT, Math.round(pct * 100) / 100));
+}
+
+function minDownPaymentAmount(price: number) {
+  return Math.round((price * MIN_DOWN_PAYMENT_PCT) / 100);
+}
+
+function maxLoanAmount(price: number) {
+  return Math.max(0, price - minDownPaymentAmount(price));
+}
 
 export function Calculator() {
   const [price, setPrice] = useState(2_000_000);
-  const [downPaymentPct, setDownPaymentPct] = useState(25);
-  const [loanAmount, setLoanAmount] = useState(1_500_000);
+  const [downPaymentPct, setDownPaymentPct] = useState(MIN_DOWN_PAYMENT_PCT);
+  const [loanAmount, setLoanAmount] = useState(1_600_000);
   const [rate, setRate] = useState(4.25);
   const [tenureMonths, setTenureMonths] = useState(300);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
+  // Down payment always follows property value minus loan (avoids % rounding drift).
   const downPayment = useMemo(
-    () => Math.min(price, Math.round((price * downPaymentPct) / 100)),
-    [price, downPaymentPct],
+    () => Math.max(0, Math.min(price, price - loanAmount)),
+    [price, loanAmount],
+  );
+
+  const downPaymentPctDerived = useMemo(
+    () => (price > 0 ? (downPayment / price) * 100 : 0),
+    [price, downPayment],
   );
   const setPriceAndSync = useCallback((next: number) => {
     setPrice(next);
-    const dp = Math.min(next, Math.round((next * downPaymentPct) / 100));
+    const pct = clampDownPaymentPct(downPaymentPct);
+    setDownPaymentPct(pct);
+    const dp = Math.max(minDownPaymentAmount(next), Math.min(next, Math.round((next * pct) / 100)));
     setLoanAmount(Math.max(0, next - dp));
   }, [downPaymentPct]);
 
   const setDownPctAndSync = useCallback(
     (pct: number) => {
-      const clamped = Math.min(100, Math.max(0, Math.round(pct * 100) / 100));
+      const clamped = clampDownPaymentPct(pct);
       setDownPaymentPct(clamped);
       const dp = Math.min(price, Math.round((price * clamped) / 100));
       setLoanAmount(Math.max(0, price - dp));
@@ -217,9 +238,9 @@ export function Calculator() {
 
   const setDownAmountAndSync = useCallback(
     (amount: number) => {
-      const clamped = Math.min(price, Math.max(0, Math.round(amount)));
-      const pct = price > 0 ? Math.round((clamped / price) * 10000) / 100 : 0;
-      setDownPaymentPct(pct);
+      const minDp = minDownPaymentAmount(price);
+      const clamped = Math.min(price, Math.max(minDp, Math.round(amount)));
+      setDownPaymentPct(price > 0 ? (clamped / price) * 100 : 0);
       setLoanAmount(Math.max(0, price - clamped));
     },
     [price],
@@ -227,11 +248,10 @@ export function Calculator() {
 
   const setLoanAndSync = useCallback(
     (nextLoan: number) => {
-      const clampedLoan = Math.min(price, Math.max(0, Math.round(nextLoan)));
+      const clampedLoan = Math.min(maxLoanAmount(price), Math.max(0, Math.round(nextLoan)));
       setLoanAmount(clampedLoan);
       const dp = Math.max(0, price - clampedLoan);
-      const pct = price > 0 ? Math.round((dp / price) * 10000) / 100 : 0;
-      setDownPaymentPct(pct);
+      setDownPaymentPct(price > 0 ? (dp / price) * 100 : 0);
     },
     [price],
   );
@@ -316,7 +336,7 @@ export function Calculator() {
 
             <FieldGroup title="Down payment">
               <DownPaymentControl
-                percent={downPaymentPct}
+                percent={downPaymentPctDerived}
                 amount={downPayment}
                 price={price}
                 onPercentChange={setDownPctAndSync}
@@ -336,7 +356,7 @@ export function Calculator() {
                 label="Loan amount"
                 value={loanAmount}
                 sliderMin={0}
-                sliderMax={Math.max(price, loanAmount, 1)}
+                sliderMax={Math.max(maxLoanAmount(price), loanAmount, 1)}
                 sliderStep={10_000}
                 onChange={setLoanAndSync}
               />
@@ -411,7 +431,7 @@ export function Calculator() {
                 onClick={() => setDetailsOpen(true)}
                 className="mt-6 w-full rounded-full border-2 border-primary-foreground/30 bg-primary-foreground/10 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/20 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                Get total payment details
+                Get Amortization Schedule
               </button>
             </div>
 
@@ -750,11 +770,11 @@ function DownPaymentControl({
   onPercentChange: (pct: number) => void;
   onAmountChange: (amount: number) => void;
 }) {
-  const [pctDraft, setPctDraft] = useState(percent.toFixed(1));
+  const [pctDraft, setPctDraft] = useState(percent.toFixed(2));
   const [amountDraft, setAmountDraft] = useState(formatWithCommas(amount));
 
   useEffect(() => {
-    setPctDraft(percent.toFixed(1));
+    setPctDraft(percent.toFixed(2));
   }, [percent]);
 
   useEffect(() => {
@@ -764,10 +784,11 @@ function DownPaymentControl({
   const commitPct = () => {
     const parsed = parseNumber(pctDraft);
     if (parsed !== null) {
-      onPercentChange(parsed);
-      setPctDraft(Math.min(100, Math.max(0, parsed)).toFixed(1));
+      const next = Math.min(100, Math.max(MIN_DOWN_PAYMENT_PCT, parsed));
+      onPercentChange(next);
+      setPctDraft(next.toFixed(2));
     } else {
-      setPctDraft(percent.toFixed(1));
+      setPctDraft(percent.toFixed(2));
     }
   };
 
@@ -791,11 +812,12 @@ function DownPaymentControl({
         {AED(amount)}
       </p>
       <p className="text-xs text-muted-foreground">of {AED(price)} property value</p>
+      <p className="text-xs text-muted-foreground">Minimum down payment: {MIN_DOWN_PAYMENT_PCT}%</p>
 
       <div className="calc-field-inputs grid gap-3 sm:grid-cols-2">
         <TapToEditField
           label="Down payment percentage"
-          display={`${percent.toFixed(1)}%`}
+          display={`${percent.toFixed(2)}%`}
           draft={pctDraft}
           onDraftChange={setPctDraft}
           onCommit={commitPct}
