@@ -7,11 +7,22 @@ import { AnimateIn } from "./AnimateIn";
 import { spring } from "@/lib/motion";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvzyewry";
+const MIN_MONTHLY_INCOME = 10000;
+
+function validateMonthlyIncome(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "Monthly income is required.";
+  const amount = Number(trimmed);
+  if (!Number.isFinite(amount) || amount <= 0) return "Enter a valid monthly income amount.";
+  if (amount < MIN_MONTHLY_INCOME) return "Minimum monthly income is AED 10,000.";
+  return "";
+}
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState<"success" | "error" | "">("");
+  const [incomeError, setIncomeError] = useState("");
 
   return (
     <section className="section-pad section-bone border-t hairline">
@@ -36,13 +47,15 @@ export function ContactForm() {
                 e.preventDefault();
                 const form = e.currentTarget;
                 const fd = new FormData(form);
-                const monthlyIncome = Number(fd.get("monthlyIncome") ?? 0);
-
-                if (!Number.isFinite(monthlyIncome) || monthlyIncome < 10000) {
+                const monthlyIncomeRaw = String(fd.get("monthlyIncome") ?? "");
+                const incomeValidationError = validateMonthlyIncome(monthlyIncomeRaw);
+                if (incomeValidationError) {
+                  setIncomeError(incomeValidationError);
                   setStatusType("error");
-                  setStatusMessage("Minimum monthly income should be AED 10,000.");
+                  setStatusMessage(incomeValidationError);
                   return;
                 }
+                const monthlyIncome = Number(monthlyIncomeRaw);
 
                 setStatusMessage("");
                 setStatusType("");
@@ -71,6 +84,7 @@ export function ContactForm() {
                   }
 
                   form.reset();
+                  setIncomeError("");
                   setStatusType("success");
                   setStatusMessage("Thanks! Your consultation request has been submitted.");
                 } catch (error) {
@@ -94,18 +108,23 @@ export function ContactForm() {
                   name="monthlyIncome"
                   type="number"
                   required
-                  min={10000}
+                  min={MIN_MONTHLY_INCOME}
+                  step={1}
                   placeholder="10000"
+                  error={incomeError}
+                  onBlur={(e) => setIncomeError(validateMonthlyIncome(e.currentTarget.value))}
+                  onChange={(e) => {
+                    if (incomeError) setIncomeError(validateMonthlyIncome(e.currentTarget.value));
+                  }}
                 />
                 <SelectField
                   label="What is your employment status?"
                   name="employmentStatus"
                   required
+                  placeholder="Select employment status"
                   options={[
                     { value: "Employed", label: "Employed" },
                     { value: "Self-Employed", label: "Self-Employed" },
-                    { value: "Business Owner", label: "Business Owner" },
-                    { value: "Other", label: "Other" },
                   ]}
                 />
                 <TextAreaField
@@ -165,6 +184,10 @@ function Field({
   placeholder,
   className = "",
   min,
+  step,
+  error,
+  onBlur,
+  onChange,
 }: {
   label: string;
   name: string;
@@ -173,6 +196,10 @@ function Field({
   placeholder?: string;
   className?: string;
   min?: number;
+  step?: number;
+  error?: string;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }) {
   const id = `contact-${name}`;
 
@@ -189,10 +216,24 @@ function Field({
         required={required}
         placeholder={placeholder}
         min={min}
+        step={step}
+        onBlur={onBlur}
+        onChange={onChange}
         whileFocus={{ scale: 1.005 }}
         transition={spring}
-        className="mt-2 min-h-[3rem] w-full rounded-xl border hairline bg-background px-4 py-3 text-sm text-foreground outline-none transition-shadow placeholder:text-muted-foreground/60 focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={`mt-2 min-h-[3rem] w-full rounded-xl border bg-background px-4 py-3 text-sm text-foreground outline-none transition-shadow placeholder:text-muted-foreground/60 focus:ring-2 ${
+          error
+            ? "border-red-500 focus:border-red-500 focus:ring-red-500/15"
+            : "hairline focus:border-primary/40 focus:ring-primary/15"
+        }`}
       />
+      {error && (
+        <p id={`${id}-error`} className="mt-1.5 text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -202,12 +243,14 @@ function SelectField({
   name,
   required,
   options,
+  placeholder,
   className = "",
 }: {
   label: string;
   name: string;
   required?: boolean;
   options: { value: string; label: string }[];
+  placeholder?: string;
   className?: string;
 }) {
   const id = `contact-${name}`;
@@ -222,11 +265,16 @@ function SelectField({
         id={id}
         name={name}
         required={required}
-        defaultValue={options[0]?.value ?? ""}
+        defaultValue=""
         whileFocus={{ scale: 1.005 }}
         transition={spring}
         className="mt-2 min-h-[3rem] w-full rounded-xl border hairline bg-background px-4 py-3 text-sm text-foreground outline-none transition-shadow focus:border-primary/40 focus:ring-2 focus:ring-primary/15"
       >
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

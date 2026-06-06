@@ -26,9 +26,9 @@ export function Services() {
               transition={{ duration: 0.45, delay: i * 0.05 }}
               className="group flex flex-col rounded-2xl border hairline bg-card p-7 shadow-[var(--shadow-soft)]"
             >
-              <p className="text-[11px] uppercase tracking-[0.14em] text-primary">{s.summary}</p>
-              <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
+              <p className="text-xs uppercase tracking-[0.14em] text-primary md:text-sm">{s.summary}</p>
+              <h3 className="mt-3 font-display text-2xl font-semibold">{s.title}</h3>
+              <p className="mt-3 flex-1 text-base leading-relaxed text-muted-foreground">{s.description}</p>
               <a
                 href="/contact"
                 className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary"

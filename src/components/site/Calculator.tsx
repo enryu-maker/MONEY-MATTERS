@@ -393,10 +393,7 @@ export function Calculator() {
                 {hasSchedule ? AED(emi) : "—"}
               </p>
               <dl className="mt-6 space-y-2.5 text-sm">
-                <ResultRow
-                  label="Loan amount"
-                  value={hasSchedule ? `${AED(loanAmount)} (${ltvPct.toFixed(2)}% LTV)` : "—"}
-                />
+                <ResultRow label="Loan amount" value={hasSchedule ? AED(loanAmount) : "—"} />
                 <ResultRow label="Interest rate" value={hasSchedule ? `${rate.toFixed(2)}% p.a.` : "—"} />
                 <ResultRow label="Tenure" value={hasSchedule ? `${months} months` : "—"} />
                 <ResultRow label="Total interest" value={hasSchedule ? AED(totalInt) : "—"} />

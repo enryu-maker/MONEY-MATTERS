@@ -5,15 +5,43 @@ import { motion } from "framer-motion";
 import { bankPartners } from "@/lib/site-data";
 import { AnimateIn } from "./AnimateIn";
 
+type LogoScale = "large" | "small" | "default";
+
+function logoScale(name: string): LogoScale {
+  if (
+    name.includes("Mashreq") ||
+    name.includes("United Arab Bank") ||
+    name.includes("Commercial Bank of Dubai")
+  ) {
+    return "large";
+  }
+  if (
+    name.includes("Ajman") ||
+    name.includes("First Abu Dhabi") ||
+    name.includes("Bank of Baroda")
+  ) {
+    return "small";
+  }
+  return "default";
+}
+
+const logoSizeClass: Record<LogoScale, string> = {
+  large: "h-16 w-auto max-w-[14rem] md:h-[5.25rem] md:max-w-[17rem]",
+  default: "h-14 w-auto max-w-[12rem] md:h-[4.5rem] md:max-w-[15rem]",
+  small: "h-10 w-auto max-w-[9rem] md:h-12 md:max-w-[11rem]",
+};
+
 function PartnerLogo({ name, logo }: { name: string; logo: string }) {
+  const scale = logoScale(name);
+
   return (
-    <div className="flex h-20 w-48 shrink-0 items-center justify-center px-2 md:h-24 md:w-64">
+    <div className="flex h-20 w-52 shrink-0 items-center justify-center px-3 md:h-24 md:w-64">
       <Image
         src={logo}
         alt={name}
-        width={240}
-        height={96}
-        className="h-14 w-auto max-w-[12rem] object-contain object-center md:h-[4.5rem] md:max-w-[15rem]"
+        width={280}
+        height={112}
+        className={`object-contain object-center ${logoSizeClass[scale]}`}
       />
     </div>
   );
@@ -26,7 +54,9 @@ export function BankMarquee({ label }: { label?: string }) {
     <section className="border-y hairline bg-white py-10">
       {label && (
         <AnimateIn className="mb-8 text-center" variant="fadeIn">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground md:text-base">
+            {label}
+          </p>
         </AnimateIn>
       )}
       <div className="relative overflow-hidden">
@@ -35,7 +65,7 @@ export function BankMarquee({ label }: { label?: string }) {
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          className="flex w-max items-center gap-10 px-8 md:gap-14"
+          className="flex w-max items-center gap-12 px-8 md:gap-14"
         >
           {items.map((bank, i) => (
             <PartnerLogo key={`${bank.logo}-${i}`} name={bank.name} logo={bank.logo} />

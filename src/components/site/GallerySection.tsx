@@ -52,6 +52,7 @@ export function GallerySection() {
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <SectionHeader
           eyebrow="Gallery"
+          largeEyebrow
           title="Life at Money Matters"
           sub="Our team, culture, and moments with clients and partners across Dubai and the UAE."
           center
@@ -82,7 +83,7 @@ export function GallerySection() {
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-transparent opacity-80 transition-opacity group-hover:opacity-100" />
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3 sm:p-4">
-                    <p className="text-left text-xs font-medium text-white sm:text-sm">
+                    <p className="text-left text-sm font-semibold leading-snug text-white sm:text-base md:text-[1.05rem]">
                       {item.caption}
                     </p>
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/20 text-white backdrop-blur-sm">
@@ -153,7 +154,7 @@ function Lightbox({
               />
             </div>
             <div className="flex items-center justify-between gap-4 border-t hairline px-4 py-3 sm:px-5">
-              <p className="text-sm font-medium text-foreground">{item.caption}</p>
+              <p className="text-base font-semibold text-foreground md:text-lg">{item.caption}</p>
               <button
                 type="button"
                 onClick={onClose}

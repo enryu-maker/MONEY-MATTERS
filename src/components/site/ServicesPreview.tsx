@@ -17,6 +17,7 @@ export function ServicesPreview() {
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           eyebrow="Our Services"
+          largeEyebrow
           title="What we do"
           sub="Factual, unbiased guidance across the full range of UAE mortgage products."
         />
@@ -29,8 +30,8 @@ export function ServicesPreview() {
                 variants={cardHover}
                 className="h-full rounded-2xl border hairline bg-card p-6 shadow-[var(--shadow-soft)]"
               >
-                <h3 className="font-display text-xl font-semibold">{s.title}</h3>
-                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                <h3 className="font-display text-2xl font-semibold">{s.title}</h3>
+                <p className="mt-3 line-clamp-4 text-base leading-relaxed text-muted-foreground">
                   {s.description}
                 </p>
               </motion.article>

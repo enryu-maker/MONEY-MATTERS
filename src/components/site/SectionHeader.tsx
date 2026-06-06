@@ -8,11 +8,13 @@ export function SectionHeader({
     title,
     sub,
     center,
+    largeEyebrow,
 }: {
     eyebrow: string;
     title: React.ReactNode;
     sub?: string;
     center?: boolean;
+    largeEyebrow?: boolean;
 }) {
     return (
         <motion.div
@@ -23,7 +25,11 @@ export function SectionHeader({
             className={`max-w-3xl ${center ? "mx-auto text-center" : ""}`}
         >
             <p
-                className={`text-xs font-medium uppercase tracking-[0.2em] text-primary ${center ? "text-center" : ""}`}
+                className={`font-semibold uppercase text-primary ${
+                    largeEyebrow
+                        ? "text-sm tracking-[0.22em] md:text-base"
+                        : "text-xs font-medium tracking-[0.2em]"
+                } ${center ? "text-center" : ""}`}
             >
                 {eyebrow}
             </p>
