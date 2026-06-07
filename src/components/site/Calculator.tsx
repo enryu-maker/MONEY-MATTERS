@@ -186,18 +186,14 @@ function buildSchedule(loan: number, annualRate: number, months: number): Paymen
 }
 
 const TENURE_MAX_MONTHS = 300;
-const MIN_DOWN_PAYMENT_PCT = 20;
+const DEFAULT_DOWN_PAYMENT_PCT = 20;
 
 function clampDownPaymentPct(pct: number) {
-  return Math.min(100, Math.max(MIN_DOWN_PAYMENT_PCT, Math.round(pct * 100) / 100));
-}
-
-function minDownPaymentAmount(price: number) {
-  return Math.round((price * MIN_DOWN_PAYMENT_PCT) / 100);
+  return Math.min(100, Math.max(0, Math.round(pct * 100) / 100));
 }
 
 function maxLoanAmount(price: number) {
-  return Math.max(0, price - minDownPaymentAmount(price));
+  return Math.max(0, price);
 }
 
 export function Calculator() {
@@ -234,8 +230,7 @@ export function Calculator() {
 
   const setDownAmountAndSync = useCallback(
     (amount: number) => {
-      const minDp = minDownPaymentAmount(price);
-      const clamped = Math.min(price, Math.max(minDp, Math.round(amount)));
+      const clamped = Math.min(price, Math.max(0, Math.round(amount)));
       setLoanAmount(Math.max(0, price - clamped));
     },
     [price],
@@ -790,7 +785,7 @@ function DownPaymentControl({
   const commitPct = () => {
     const parsed = parseNumber(pctDraft);
     if (parsed !== null) {
-      const next = Math.min(100, Math.max(MIN_DOWN_PAYMENT_PCT, parsed));
+      const next = Math.min(100, Math.max(0, parsed));
       onPercentChange(next);
       setPctDraft(next.toFixed(2));
     } else {
@@ -818,7 +813,7 @@ function DownPaymentControl({
         {AED(amount)}
       </p>
       <p className="text-xs text-muted-foreground">of {AED(price)} property value</p>
-      <p className="text-xs text-muted-foreground">Minimum down payment: {MIN_DOWN_PAYMENT_PCT}%</p>
+      <p className="text-xs text-muted-foreground">Default down payment: {DEFAULT_DOWN_PAYMENT_PCT}%</p>
 
       <div className="calc-field-inputs grid grid-cols-1 gap-3 md:grid-cols-2">
         <TapToEditField
