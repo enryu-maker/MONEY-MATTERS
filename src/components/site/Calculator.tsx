@@ -186,7 +186,6 @@ function buildSchedule(loan: number, annualRate: number, months: number): Paymen
 }
 
 const TENURE_MAX_MONTHS = 300;
-const DEFAULT_DOWN_PAYMENT_PCT = 20;
 
 function clampDownPaymentPct(pct: number) {
   return Math.min(100, Math.max(0, Math.round(pct * 100) / 100));
@@ -753,7 +752,6 @@ function PercentControl({
           }
         />
       </div>
-      <p className="text-xs text-muted-foreground">Adjust by 0.01% — type any rate you need.</p>
     </div>
   );
 }
@@ -813,7 +811,6 @@ function DownPaymentControl({
         {AED(amount)}
       </p>
       <p className="text-xs text-muted-foreground">of {AED(price)} property value</p>
-      <p className="text-xs text-muted-foreground">Default down payment: {DEFAULT_DOWN_PAYMENT_PCT}%</p>
 
       <div className="calc-field-inputs grid grid-cols-1 gap-3 md:grid-cols-2">
         <TapToEditField
