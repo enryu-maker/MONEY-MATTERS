@@ -52,12 +52,30 @@ html {
 }
 
 @utility section-pad {
-  padding-inline: 1.5rem;
-  padding-block: 5.5rem;
+  padding-inline: 1rem;
+  padding-block: 4rem;
 
-  @media (width >= 48rem) {
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+    padding-block: 5rem;
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
     padding-block: 6.5rem;
   }
+}
+
+@utility section-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+}
+
+@utility section-container-narrow {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
 }
 
 @utility section-bone {

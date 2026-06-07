@@ -21,7 +21,7 @@ type TeamSectionProps = {
 export function TeamSection({ showAll = false, showViewAll = false }: TeamSectionProps) {
   return (
     <section className="section-pad section-bone">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="section-container">
         <SectionHeader
           eyebrow="Our Team"
           title="We would be happy to assist you"

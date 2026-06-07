@@ -26,7 +26,7 @@ export function ContactForm() {
 
   return (
     <section className="section-pad section-bone border-t hairline">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="section-container">
         <div className="mx-auto max-w-4xl">
           <AnimateIn>
             <div className="text-center md:text-left">
@@ -99,10 +99,10 @@ export function ContactForm() {
                 }
               }}
             >
-              <div className="grid gap-5 sm:grid-cols-3">
-                <Field label="Full Name" name="name" required className="sm:col-span-1" />
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <Field label="Full Name" name="name" required />
                 <Field label="Contact No" name="phone" type="tel" required />
-                <Field label="Email ID" name="email" type="email" required />
+                <Field label="Email ID" name="email" type="email" required className="sm:col-span-2 lg:col-span-1" />
                 <Field
                   label="What is your monthly income? (AED)"
                   name="monthlyIncome"
@@ -130,7 +130,7 @@ export function ContactForm() {
                 <TextAreaField
                   label="Any specific requirements / Comments"
                   name="comments"
-                  className="sm:col-span-3"
+                  className="sm:col-span-2 lg:col-span-3"
                   rows={4}
                 />
               </div>

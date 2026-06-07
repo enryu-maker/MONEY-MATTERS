@@ -14,14 +14,14 @@ export function ServicesPreview() {
 
   return (
     <section className="section-pad">
-      <div className="mx-auto max-w-7xl">
+      <div className="section-container">
         <SectionHeader
           eyebrow="Our Services"
           largeEyebrow
           title="What we do"
           sub="Factual, unbiased guidance across the full range of UAE mortgage products."
         />
-        <Stagger className="mt-10 grid gap-4 md:grid-cols-3">
+        <Stagger className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
           {preview.map((s) => (
             <StaggerItem key={s.title}>
               <motion.article

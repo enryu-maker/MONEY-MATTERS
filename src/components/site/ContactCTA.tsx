@@ -17,7 +17,7 @@ export function ContactCTA() {
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
         variants={staggerContainer}
-        className="mx-auto max-w-4xl rounded-3xl bg-primary px-6 py-14 text-center text-primary-foreground md:px-12 md:py-16"
+        className="mx-auto w-full max-w-4xl rounded-2xl bg-primary px-5 py-12 text-center text-primary-foreground sm:rounded-3xl sm:px-8 sm:py-14 md:px-12 md:py-16"
       >
         <motion.h2
           variants={item}

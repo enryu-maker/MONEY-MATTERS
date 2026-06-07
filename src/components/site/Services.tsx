@@ -8,7 +8,7 @@ import { SectionHeader } from "./SectionHeader";
 export function Services() {
   return (
     <section className="section-pad">
-      <div className="mx-auto max-w-7xl">
+      <div className="section-container">
         <SectionHeader
           eyebrow="Our Services"
           title="Mortgage solutions for every property class in the UAE"

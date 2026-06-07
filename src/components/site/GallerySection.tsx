@@ -10,14 +10,21 @@ import { AnimateIn } from "./AnimateIn";
 import { Stagger, StaggerItem } from "./Stagger";
 import { spring } from "@/lib/motion";
 
-/** Bento cell spans for a balanced 5-image layout */
+/** Responsive bento: 1 col mobile → 2 col tablet → 4 col desktop */
 const cellLayout = [
-  "col-span-2 row-span-2 min-h-[220px] sm:min-h-[280px]",
-  "col-span-1 row-span-1 min-h-[140px]",
-  "col-span-1 row-span-1 min-h-[140px]",
-  "col-span-1 row-span-1 min-h-[140px] sm:col-span-1",
-  "col-span-1 row-span-1 min-h-[140px] sm:col-span-1",
+  "col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-2",
+  "col-span-1",
+  "col-span-1",
+  "col-span-1",
+  "col-span-1",
 ] as const;
+
+function galleryButtonClass(index: number) {
+  if (index === 0) {
+    return "aspect-[16/10] sm:aspect-[2/1] lg:aspect-auto lg:h-full lg:min-h-[320px]";
+  }
+  return "aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[160px]";
+}
 
 export function GallerySection() {
   const [active, setActive] = useState<number | null>(null);
@@ -49,7 +56,7 @@ export function GallerySection() {
 
   return (
     <section className="section-pad border-t hairline bg-background">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="section-container">
         <SectionHeader
           eyebrow="Gallery"
           largeEyebrow
@@ -59,16 +66,13 @@ export function GallerySection() {
         />
 
         <AnimateIn delay={0.05}>
-          <Stagger className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:auto-rows-[minmax(0,1fr)]">
+          <Stagger className="mt-8 grid grid-cols-1 gap-3 sm:mt-10 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:auto-rows-[minmax(160px,1fr)]">
             {galleryImages.map((item, i) => (
-              <StaggerItem
-                key={item.src}
-                className={`${cellLayout[i]} ${i === 0 ? "md:min-h-[320px]" : ""}`}
-              >
+              <StaggerItem key={item.src} className={cellLayout[i]}>
                 <button
                   type="button"
                   onClick={() => setActive(i)}
-                  className="group relative h-full min-h-[inherit] w-full overflow-hidden rounded-2xl border hairline bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                  className={`group relative w-full overflow-hidden rounded-2xl border hairline bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${galleryButtonClass(i)}`}
                 >
                   <Image
                     src={item.src}
@@ -77,13 +81,13 @@ export function GallerySection() {
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
                     sizes={
                       i === 0
-                        ? "(max-width: 768px) 100vw, 50vw"
-                        : "(max-width: 768px) 50vw, 25vw"
+                        ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 50vw"
+                        : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     }
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-transparent opacity-80 transition-opacity group-hover:opacity-100" />
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3 sm:p-4">
-                    <p className="text-left text-sm font-semibold leading-snug text-white sm:text-base md:text-[1.05rem]">
+                    <p className="text-left text-sm font-semibold leading-snug text-white sm:text-base lg:text-[1.05rem]">
                       {item.caption}
                     </p>
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/20 text-white backdrop-blur-sm">
@@ -123,7 +127,7 @@ function Lightbox({
   return (
     <AnimatePresence>
       {item && active !== null && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4">
           <motion.button
             type="button"
             aria-label="Close gallery"
@@ -154,7 +158,7 @@ function Lightbox({
               />
             </div>
             <div className="flex items-center justify-between gap-4 border-t hairline px-4 py-3 sm:px-5">
-              <p className="text-base font-semibold text-foreground md:text-lg">{item.caption}</p>
+              <p className="text-sm font-semibold text-foreground sm:text-base lg:text-lg">{item.caption}</p>
               <button
                 type="button"
                 onClick={onClose}
@@ -170,7 +174,7 @@ function Lightbox({
             type="button"
             onClick={onPrev}
             aria-label="Previous image"
-            className="absolute left-2 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border hairline bg-card/90 shadow-lg backdrop-blur-sm hover:bg-card sm:left-4"
+            className="absolute left-2 top-1/2 z-20 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border hairline bg-card/90 shadow-lg backdrop-blur-sm hover:bg-card sm:left-4 sm:h-11 sm:w-11"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -178,7 +182,7 @@ function Lightbox({
             type="button"
             onClick={onNext}
             aria-label="Next image"
-            className="absolute right-2 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border hairline bg-card/90 shadow-lg backdrop-blur-sm hover:bg-card sm:right-4"
+            className="absolute right-2 top-1/2 z-20 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border hairline bg-card/90 shadow-lg backdrop-blur-sm hover:bg-card sm:right-4 sm:h-11 sm:w-11"
           >
             <ChevronRight className="h-5 w-5" />
           </button>

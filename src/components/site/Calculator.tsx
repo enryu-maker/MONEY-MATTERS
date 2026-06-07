@@ -202,13 +202,12 @@ function maxLoanAmount(price: number) {
 
 export function Calculator() {
   const [price, setPrice] = useState(2_000_000);
-  const [downPaymentPct, setDownPaymentPct] = useState(MIN_DOWN_PAYMENT_PCT);
   const [loanAmount, setLoanAmount] = useState(1_600_000);
   const [rate, setRate] = useState(4.25);
   const [tenureMonths, setTenureMonths] = useState(300);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  // Down payment always follows property value minus loan (avoids % rounding drift).
+  // Down payment is always property value minus loan (single source of truth).
   const downPayment = useMemo(
     () => Math.max(0, Math.min(price, price - loanAmount)),
     [price, loanAmount],
@@ -218,18 +217,15 @@ export function Calculator() {
     () => (price > 0 ? (downPayment / price) * 100 : 0),
     [price, downPayment],
   );
+
   const setPriceAndSync = useCallback((next: number) => {
     setPrice(next);
-    const pct = clampDownPaymentPct(downPaymentPct);
-    setDownPaymentPct(pct);
-    const dp = Math.max(minDownPaymentAmount(next), Math.min(next, Math.round((next * pct) / 100)));
-    setLoanAmount(Math.max(0, next - dp));
-  }, [downPaymentPct]);
+    setLoanAmount((loan) => Math.min(maxLoanAmount(next), Math.max(0, loan)));
+  }, []);
 
   const setDownPctAndSync = useCallback(
     (pct: number) => {
       const clamped = clampDownPaymentPct(pct);
-      setDownPaymentPct(clamped);
       const dp = Math.min(price, Math.round((price * clamped) / 100));
       setLoanAmount(Math.max(0, price - dp));
     },
@@ -240,7 +236,6 @@ export function Calculator() {
     (amount: number) => {
       const minDp = minDownPaymentAmount(price);
       const clamped = Math.min(price, Math.max(minDp, Math.round(amount)));
-      setDownPaymentPct(price > 0 ? (clamped / price) * 100 : 0);
       setLoanAmount(Math.max(0, price - clamped));
     },
     [price],
@@ -250,8 +245,6 @@ export function Calculator() {
     (nextLoan: number) => {
       const clampedLoan = Math.min(maxLoanAmount(price), Math.max(0, Math.round(nextLoan)));
       setLoanAmount(clampedLoan);
-      const dp = Math.max(0, price - clampedLoan);
-      setDownPaymentPct(price > 0 ? (dp / price) * 100 : 0);
     },
     [price],
   );
@@ -311,7 +304,7 @@ export function Calculator() {
 
   return (
     <section className="section-pad bg-background">
-      <div className="mx-auto max-w-6xl">
+      <div className="section-container-narrow">
         <SectionHeader
           eyebrow="EMI Calculator"
           center
@@ -320,9 +313,9 @@ export function Calculator() {
         />
 
         <AnimateIn variant="scaleIn" delay={0.05}>
-        <div className="mt-10 overflow-hidden rounded-3xl border hairline bg-card shadow-[var(--shadow-card)] lg:grid lg:grid-cols-[1fr_minmax(320px,400px)] lg:items-stretch">
+        <div className="mt-8 overflow-hidden rounded-2xl border hairline bg-card shadow-[var(--shadow-card)] sm:mt-10 sm:rounded-3xl md:grid md:grid-cols-[1fr_minmax(280px,36%)] md:items-stretch lg:grid-cols-[1fr_minmax(320px,400px)]">
           {/* Inputs */}
-          <div className="divide-y hairline p-6 sm:p-8 lg:p-10">
+          <div className="divide-y hairline p-4 sm:p-6 md:p-8 lg:p-10">
             <FieldGroup title="Property">
               <MoneyControl
                 label="Property value"
@@ -384,7 +377,7 @@ export function Calculator() {
           </div>
 
           {/* Results */}
-          <aside className="flex flex-col justify-between bg-primary p-6 text-primary-foreground sm:p-8">
+          <aside className="flex flex-col justify-between border-t hairline bg-primary p-4 text-primary-foreground sm:p-6 md:border-t-0 md:p-8">
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground/75">
                 Monthly EMI
@@ -651,6 +644,7 @@ function MoneyControl({
   sliderMax,
   sliderStep,
   onChange,
+  syncWhileEditing = false,
 }: {
   label: string;
   value: number;
@@ -658,6 +652,7 @@ function MoneyControl({
   sliderMax: number;
   sliderStep: number;
   onChange: (v: number) => void;
+  syncWhileEditing?: boolean;
 }) {
   const [draft, setDraft] = useState(formatWithCommas(value));
 
@@ -665,13 +660,27 @@ function MoneyControl({
     setDraft(formatWithCommas(value));
   }, [value]);
 
-  const commit = () => {
-    const parsed = parseNumber(draft);
+  const applyParsed = (raw: string, formatDraft = true) => {
+    const parsed = parseNumber(raw);
     if (parsed !== null) {
-      onChange(Math.round(parsed));
-      setDraft(formatWithCommas(Math.round(parsed)));
-    } else {
+      const next = Math.round(parsed);
+      onChange(next);
+      if (formatDraft) setDraft(formatWithCommas(next));
+      return true;
+    }
+    return false;
+  };
+
+  const commit = () => {
+    if (!applyParsed(draft)) {
       setDraft(formatWithCommas(value));
+    }
+  };
+
+  const handleDraftChange = (nextDraft: string) => {
+    setDraft(nextDraft);
+    if (syncWhileEditing) {
+      applyParsed(nextDraft, false);
     }
   };
 
@@ -685,7 +694,7 @@ function MoneyControl({
           label={label}
           display={formatWithCommas(value)}
           draft={draft}
-          onDraftChange={setDraft}
+          onDraftChange={handleDraftChange}
           onCommit={commit}
           prefix={
             <span className="shrink-0 border-r hairline bg-secondary/60 px-4 py-3.5 text-sm font-medium text-muted-foreground">
@@ -811,7 +820,7 @@ function DownPaymentControl({
       <p className="text-xs text-muted-foreground">of {AED(price)} property value</p>
       <p className="text-xs text-muted-foreground">Minimum down payment: {MIN_DOWN_PAYMENT_PCT}%</p>
 
-      <div className="calc-field-inputs grid gap-3 sm:grid-cols-2">
+      <div className="calc-field-inputs grid grid-cols-1 gap-3 md:grid-cols-2">
         <TapToEditField
           label="Down payment percentage"
           display={`${percent.toFixed(2)}%`}

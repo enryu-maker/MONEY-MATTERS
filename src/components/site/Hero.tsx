@@ -14,13 +14,13 @@ const heroStats = [
 ] as const;
 
 const statHeadline =
-  "font-display text-[1.2rem] font-bold leading-[1.1] text-foreground sm:text-[1.3rem] xl:text-[1.4rem]";
+  "font-display text-[1.05rem] font-bold leading-[1.1] text-foreground sm:text-[1.2rem] md:text-[1.25rem] lg:text-[1.35rem]";
 const statLabel =
-  "mt-2 min-h-[2rem] text-[11px] font-medium uppercase leading-snug tracking-[0.14em] text-muted-foreground xl:text-xs";
+  "mt-1.5 min-h-[2rem] text-[10px] font-medium uppercase leading-snug tracking-[0.12em] text-muted-foreground sm:mt-2 sm:text-[11px] lg:text-xs";
 
 function HeroStatCell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-[5.5rem] flex-col justify-end text-center sm:min-h-[6rem] sm:text-left xl:min-h-[6.25rem]">
+    <div className="flex min-h-[5rem] flex-col justify-end text-center sm:min-h-[5.5rem] sm:text-left md:min-h-[6rem] lg:min-h-[6.25rem]">
       {children}
     </div>
   );
@@ -75,17 +75,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.24 }}
-            className="mt-9 flex flex-wrap gap-3"
+            className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap"
           >
             <a
               href="/calculator"
-              className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-[var(--shadow-cta)]"
+              className="rounded-full bg-primary px-6 py-3 text-center text-sm font-medium text-primary-foreground shadow-[var(--shadow-cta)] sm:text-left"
             >
               Calculate your mortgage instantly
             </a>
             <a
               href="/contact"
-              className="rounded-full border border-white/35 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm hover:bg-white/20"
+              className="rounded-full border border-white/35 bg-white/10 px-6 py-3 text-center text-sm font-medium text-white backdrop-blur-sm hover:bg-white/20 sm:text-left"
             >
               Let&apos;s Talk
             </a>
@@ -98,22 +98,22 @@ export function Hero() {
           transition={{ duration: 0.55, delay: 0.32 }}
           className="mt-10 w-full pb-2"
         >
-          <div className="rounded-2xl border hairline bg-white/92 px-3 py-5 shadow-[var(--shadow-soft)] backdrop-blur-sm sm:px-4 sm:py-6 xl:px-2">
-            <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-3 xl:grid xl:grid-cols-6 xl:gap-y-0">
+          <div className="rounded-2xl border hairline bg-white/92 px-2 py-4 shadow-[var(--shadow-soft)] backdrop-blur-sm sm:px-4 sm:py-6 lg:px-3 lg:py-5">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-5 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-6 lg:grid-cols-6 lg:gap-x-0 lg:gap-y-0">
               {heroStats.map((stat, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: 0.38 + i * 0.06 }}
-                  className="min-w-0 px-2 sm:px-3 xl:border-l xl:border-border/20 xl:px-4 xl:first:border-l-0"
+                  className="min-w-0 px-1 sm:px-2 md:px-3 lg:border-l lg:border-border/20 lg:px-4 lg:first:border-l-0"
                 >
                   <HeroStatCell>
                     {stat.kind === "uae" && (
                       <>
-                        <div className={`${statHeadline} min-h-[2.75rem] xl:min-h-[3rem]`}>
+                        <div className={`${statHeadline} min-h-[2.5rem] sm:min-h-[2.75rem] lg:min-h-[3rem]`}>
                           <span>UAE </span>
-                          <span className="text-sm font-semibold normal-case text-muted-foreground xl:text-base">
+                          <span className="text-xs font-semibold normal-case text-muted-foreground sm:text-sm lg:text-base">
                             presence
                           </span>
                         </div>
@@ -122,7 +122,7 @@ export function Hero() {
                     )}
                     {stat.kind === "stacked" && (
                       <>
-                        <div className={`${statHeadline} min-h-[2.75rem] space-y-0.5 xl:min-h-[3rem]`}>
+                        <div className={`${statHeadline} min-h-[2.5rem] space-y-0.5 sm:min-h-[2.75rem] lg:min-h-[3rem]`}>
                           {stat.lines.map((line) => (
                             <span key={line} className="block">
                               {line}
@@ -134,7 +134,7 @@ export function Hero() {
                     )}
                     {stat.kind === "metric" && (
                       <>
-                        <p className={`${statHeadline} min-h-[2.75rem] xl:min-h-[3rem]`}>{stat.value}</p>
+                        <p className={`${statHeadline} min-h-[2.5rem] sm:min-h-[2.75rem] lg:min-h-[3rem]`}>{stat.value}</p>
                         <p className={statLabel}>{stat.label}</p>
                       </>
                     )}

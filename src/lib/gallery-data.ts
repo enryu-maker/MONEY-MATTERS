@@ -30,6 +30,11 @@ export const galleryImages = [
     caption: "Office Visit by Team CBD",
   },
   {
+    src: "/gallery/team-hsbc.png",
+    alt: "Money Matters team with HSBC representatives in the Dubai office",
+    caption: "Office Visit by Team HSBC",
+  },
+  {
     src: "/gallery/team-diwali.png",
     alt: "Money Matters team celebrating Diwali",
     caption: "HSBC Diwali Event",

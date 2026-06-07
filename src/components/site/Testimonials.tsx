@@ -9,14 +9,14 @@ export function Testimonials() {
 
   return (
     <section className="section-pad section-bone">
-      <div className="mx-auto max-w-7xl">
+      <div className="section-container">
         <SectionHeader
           eyebrow="We love them"
           title="What our clients have to say"
           sub="Verified Google reviews from clients across the UAE and overseas."
         />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {featured.map((t, i) => (
             <motion.blockquote
               key={t.name}
