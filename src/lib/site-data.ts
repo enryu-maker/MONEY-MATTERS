@@ -94,7 +94,7 @@ export type BankPartner = {
 /** Logos from https://moneymatters.ae/ partner carousel */
 export const bankPartners: BankPartner[] = [
   // { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
-  { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
+  // { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
   { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png", logoSize: "large" },
   { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg", logoSize: "large" },
   { name: "Ajman Bank", logo: "/partners/ajman.png" },
