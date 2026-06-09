@@ -4,8 +4,7 @@ import { BlogPostBody } from "@/components/site/BlogPostBody";
 import { BlogCard } from "@/components/site/BlogCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { blogPosts, getAllBlogSlugs, getBlogPost } from "@/lib/blog-data";
-import { absoluteUrl, breadcrumbJsonLd, buildPageMetadata, siteUrl } from "@/lib/seo";
-import { site } from "@/lib/site-data";
+import { blogPostingJsonLd, breadcrumbJsonLd, buildBlogPostMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -26,36 +25,7 @@ export async function generateMetadata({ params }: Props) {
   const post = getBlogPost(slug);
   if (!post) return {};
 
-  return buildPageMetadata({
-    title: post.title,
-    description: post.description,
-    path: `/blog/${post.slug}`,
-    keywords: post.keywords,
-  });
-}
-
-function blogPostingJsonLd(post: NonNullable<ReturnType<typeof getBlogPost>>) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: site.name,
-      url: siteUrl,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: site.name,
-      url: siteUrl,
-    },
-    mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
-    inLanguage: "en-AE",
-    keywords: post.keywords.join(", "),
-  };
+  return buildBlogPostMetadata(post);
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -104,11 +74,11 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </header>
 
-      <section className="section-pad">
+      <article className="section-pad">
         <div className="mx-auto max-w-3xl px-4 md:px-6">
           <BlogPostBody post={post} />
         </div>
-      </section>
+      </article>
 
       {related.length > 0 && (
         <section className="section-pad section-bone border-t hairline">

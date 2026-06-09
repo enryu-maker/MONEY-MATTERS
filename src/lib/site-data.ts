@@ -11,7 +11,7 @@ export const site = {
   address: "1009, Tamani Art Office Tower, Business Bay, Dubai",
   poBox: "P.O. Box 120380",
   founded: 2016,
-  privacyUrl: "https://moneymatters.ae/privacy-policy/",
+  privacyUrl: "/privacy-policy",
   social: {
     facebook: "https://www.facebook.com/www.moneymatters.ae/",
     instagram: "https://www.instagram.com/moneymattersmortgages",
@@ -85,8 +85,14 @@ export const services = [
 
 export type PartnerLogoSize = "large" | "default" | "small";
 
+export type BankPartner = {
+  name: string;
+  logo: string;
+  logoSize?: PartnerLogoSize;
+};
+
 /** Logos from https://moneymatters.ae/ partner carousel */
-export const bankPartners = [
+export const bankPartners: BankPartner[] = [
   // { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
   { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
   { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png", logoSize: "large" },
@@ -103,7 +109,7 @@ export const bankPartners = [
   // { name: "National Bank of Oman", logo: "/partners/nbo-20260602.png" },
   // { name: "Saudi National Bank", logo: "/partners/snb-20260602.png" },
   // { name: "Abu Dhabi Commercial Bank (ADCB)", logo: "/partners/adcb.jpg" },
-] as const;
+];
 
 export const affiliatePartners = [
 ] as const;

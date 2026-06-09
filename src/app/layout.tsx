@@ -22,6 +22,7 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   ...rootMetadata,
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       { url: "/icon.png", sizes: "32x32", type: "image/png" },

@@ -1,7 +1,7 @@
 import { PageBanner } from "@/components/site/PageBanner";
 import { ContactDetails } from "@/components/site/ContactDetails";
 import { ContactForm } from "@/components/site/ContactForm";
-import { breadcrumbJsonLd, pageSeo } from "@/lib/seo";
+import { breadcrumbJsonLd, contactPageJsonLd, pageSeo } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata = pageSeo.contact;
@@ -10,10 +10,13 @@ export default function ContactPage() {
   return (
     <main>
       <JsonLd
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Contact", path: "/contact" },
-        ])}
+        data={[
+          contactPageJsonLd(),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+        ]}
       />
       <PageBanner
         eyebrow="Contact"

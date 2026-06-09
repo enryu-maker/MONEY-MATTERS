@@ -3,15 +3,9 @@ import { PageBanner } from "@/components/site/PageBanner";
 import { BlogCard } from "@/components/site/BlogCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { blogPosts } from "@/lib/blog-data";
-import { breadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
+import { blogCollectionJsonLd, breadcrumbJsonLd, pageSeo } from "@/lib/seo";
 
-export const metadata = buildPageMetadata({
-  title: "Mortgage Guides & Insights — Dubai & UAE Home Loans",
-  description:
-    "Expert articles on Dubai mortgage down payments, non-resident home loans, buyout & refinance — written by licensed UAE mortgage consultants at Money Matters.",
-  path: "/blog",
-  keywords: ["UAE mortgage blog", "Dubai home loan guides", "mortgage tips UAE"],
-});
+export const metadata = pageSeo.blog;
 
 export default function BlogPage() {
   const sorted = [...blogPosts].sort(
@@ -21,10 +15,13 @@ export default function BlogPage() {
   return (
     <main>
       <JsonLd
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Blog", path: "/blog" },
-        ])}
+        data={[
+          blogCollectionJsonLd(),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+          ]),
+        ]}
       />
       <PageBanner
         eyebrow="Blog"

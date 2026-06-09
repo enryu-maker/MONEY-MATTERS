@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { bankPartners, type PartnerLogoSize } from "@/lib/site-data";
+import { bankPartners, type BankPartner, type PartnerLogoSize } from "@/lib/site-data";
 import { AnimateIn } from "./AnimateIn";
 
 type LogoScale = PartnerLogoSize;
@@ -15,8 +15,8 @@ function logoScaleByName(name: string): LogoScale {
   return "default";
 }
 
-function resolveLogoScale(partner: (typeof bankPartners)[number]): LogoScale {
-  return "logoSize" in partner && partner.logoSize ? partner.logoSize : logoScaleByName(partner.name);
+function resolveLogoScale(partner: BankPartner): LogoScale {
+  return partner.logoSize ?? logoScaleByName(partner.name);
 }
 
 const logoSizeClass: Record<LogoScale, string> = {
@@ -31,7 +31,7 @@ const logoSlotClass: Record<LogoScale, string> = {
   small: "h-16 w-44 md:h-20 md:w-52",
 };
 
-function PartnerLogo({ partner }: { partner: (typeof bankPartners)[number] }) {
+function PartnerLogo({ partner }: { partner: BankPartner }) {
   const scale = resolveLogoScale(partner);
 
   return (

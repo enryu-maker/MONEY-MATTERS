@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { blogPosts } from "@/lib/blog-data";
 import { about, faqs, site, services } from "@/lib/site-data";
 
-/** Canonical production URL — override with NEXT_PUBLIC_SITE_URL when deploying elsewhere */
+/** Canonical production URL — override with NEXT_PUBLIC_SITE_URL when deploying */
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://moneymatters.ae"
 ).replace(/\/$/, "");
@@ -30,6 +31,7 @@ export const uaeKeywords = [
   "licensed mortgage broker UAE",
 ] as const;
 
+/** SEO-friendly URL registry — all public routes use lowercase kebab-case paths */
 export const routes = [
   { path: "/", priority: 1, changeFrequency: "weekly" as const },
   { path: "/services", priority: 0.9, changeFrequency: "monthly" as const },
@@ -43,24 +45,47 @@ export const routes = [
   { path: "/privacy-policy", priority: 0.6, changeFrequency: "yearly" as const },
 ] as const;
 
-const defaultOgImage = "/logo-full.png";
+const ogImage = "/about/about-hero.png";
+const ogImageAlt = `${site.name} — licensed mortgage consultants in Dubai, UAE`;
+const logoImage = "/logo-full.png";
 
 export const defaultDescription =
   "Founded in 2016, we are proud to be one of the oldest mortgage broker firms in the UAE. Compare home loans from major UAE banks — resale, buyout, equity release, non-resident & commercial finance. Free expert advice in Business Bay.";
 
 type PageMetaInput = {
-  /** Browser tab / SERP title (template adds brand suffix in layout) */
   title: string;
   description: string;
   path: `/${string}` | "/";
   keywords?: readonly string[];
-  /** Set false on home to avoid duplicate brand in title */
   includeBrandInTitle?: boolean;
+  ogType?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  noIndex?: boolean;
 };
 
 export function absoluteUrl(path: string) {
   const p = path.startsWith("/") ? path : `/${path}`;
   return `${siteUrl}${p === "/" ? "" : p}`;
+}
+
+function ogImages(alt = ogImageAlt) {
+  return [
+    {
+      url: ogImage,
+      width: 1200,
+      height: 630,
+      alt,
+      type: "image/png",
+    },
+    {
+      url: logoImage,
+      width: 800,
+      height: 560,
+      alt: `${site.name} logo`,
+      type: "image/png",
+    },
+  ];
 }
 
 export function buildPageMetadata({
@@ -69,6 +94,10 @@ export function buildPageMetadata({
   path,
   keywords = [],
   includeBrandInTitle = true,
+  ogType = "website",
+  publishedTime,
+  modifiedTime,
+  noIndex = false,
 }: PageMetaInput): Metadata {
   const canonical = absoluteUrl(path);
   const fullTitle = includeBrandInTitle ? `${title} · ${site.name}` : title;
@@ -78,31 +107,69 @@ export function buildPageMetadata({
     title: includeBrandInTitle ? title : { absolute: fullTitle },
     description,
     keywords: keywordSet,
-    alternates: { canonical },
+    authors: [{ name: brand.legalName, url: siteUrl }],
+    creator: brand.legalName,
+    publisher: brand.legalName,
+    category: "Finance",
+    alternates: {
+      canonical,
+      languages: { "en-AE": canonical },
+    },
+    robots: noIndex
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+          },
+        },
     openGraph: {
-      type: "website",
+      type: ogType,
       locale: "en_AE",
       url: canonical,
       siteName: site.name,
       title: fullTitle,
       description,
-      images: [
-        {
-          url: defaultOgImage,
-          width: 1200,
-          height: 630,
-          alt: `${site.name} — ${site.tagline} in Dubai, UAE`,
-        },
-      ],
+      images: ogImages(`${fullTitle} — ${site.tagline}`),
+      ...(ogType === "article" && publishedTime
+        ? { publishedTime, modifiedTime: modifiedTime ?? publishedTime }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: [defaultOgImage],
+      images: [ogImage],
     },
   };
 }
+
+export function buildBlogPostMetadata(post: {
+  title: string;
+  description: string;
+  slug: string;
+  keywords: string[];
+  publishedAt: string;
+  updatedAt: string;
+}): Metadata {
+  return buildPageMetadata({
+    title: post.title,
+    description: post.description,
+    path: `/blog/${post.slug}`,
+    keywords: post.keywords,
+    ogType: "article",
+    publishedTime: post.publishedAt,
+    modifiedTime: post.updatedAt,
+  });
+}
+
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
 /** Root layout defaults */
 export const rootMetadata: Metadata = {
@@ -113,10 +180,16 @@ export const rootMetadata: Metadata = {
   },
   description: defaultDescription,
   keywords: [...uaeKeywords],
+  applicationName: site.name,
   authors: [{ name: brand.legalName, url: siteUrl }],
   creator: brand.legalName,
   publisher: brand.legalName,
   category: "Finance",
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
   robots: {
     index: true,
     follow: true,
@@ -139,21 +212,22 @@ export const rootMetadata: Metadata = {
     siteName: site.name,
     title: `Mortgage Broker Dubai & UAE | ${site.name}`,
     description: defaultDescription,
-    images: [
-      {
-        url: defaultOgImage,
-        width: 1200,
-        height: 630,
-        alt: `${site.name} — mortgage consultants in Dubai, UAE`,
-      },
-    ],
+    images: ogImages(),
   },
   twitter: {
     card: "summary_large_image",
     title: `Mortgage Broker Dubai & UAE | ${site.name}`,
     description: defaultDescription,
-    images: [defaultOgImage],
+    images: [ogImage],
   },
+  ...(googleVerification || bingVerification
+    ? {
+        verification: {
+          ...(googleVerification ? { google: googleVerification } : {}),
+          ...(bingVerification ? { other: { "msvalidate.01": bingVerification } } : {}),
+        },
+      }
+    : {}),
   other: {
     "geo.region": "AE-DU",
     "geo.placename": "Dubai",
@@ -164,7 +238,7 @@ export const rootMetadata: Metadata = {
 
 export function globalJsonLdGraph() {
   const logoUrl = absoluteUrl("/logo-wordmark.png");
-  const imageUrl = absoluteUrl("/logo-full.png");
+  const imageUrl = absoluteUrl(ogImage);
 
   return {
     "@context": "https://schema.org",
@@ -195,6 +269,7 @@ export function globalJsonLdGraph() {
           streetAddress: site.address,
           addressLocality: "Business Bay",
           addressRegion: "Dubai",
+          postalCode: "120380",
           addressCountry: "AE",
         },
         areaServed: [
@@ -255,6 +330,145 @@ export function globalJsonLdGraph() {
         },
       },
     ],
+  };
+}
+
+export function webPageJsonLd({
+  name,
+  path,
+  description,
+}: {
+  name: string;
+  path: `/${string}` | "/";
+  description: string;
+}) {
+  const url = absoluteUrl(path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name,
+    description,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#organization` },
+    inLanguage: "en-AE",
+  };
+}
+
+export function contactPageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${absoluteUrl("/contact")}#contactpage`,
+    url: absoluteUrl("/contact"),
+    name: `Contact ${site.name}`,
+    description: pageSeo.contact.description,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    mainEntity: { "@id": `${siteUrl}/#localbusiness` },
+    inLanguage: "en-AE",
+  };
+}
+
+export function servicesItemListJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${site.name} mortgage services`,
+    description: pageSeo.services.description,
+    itemListElement: services.map((s, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Service",
+        name: s.title,
+        description: s.description,
+        provider: { "@id": `${siteUrl}/#organization` },
+        areaServed: { "@type": "Country", name: "United Arab Emirates" },
+        url: absoluteUrl("/services"),
+      },
+    })),
+  };
+}
+
+export function calculatorWebAppJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "UAE Mortgage EMI Calculator",
+    description: pageSeo.calculator.description,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires JavaScript",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "AED",
+    },
+    provider: { "@id": `${siteUrl}/#organization` },
+    url: absoluteUrl("/calculator"),
+    inLanguage: "en-AE",
+  };
+}
+
+export function blogCollectionJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${absoluteUrl("/blog")}#collection`,
+    url: absoluteUrl("/blog"),
+    name: "Mortgage guides & insights",
+    description: pageSeo.blog.description,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    hasPart: blogPosts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.description,
+      url: absoluteUrl(`/blog/${post.slug}`),
+      datePublished: post.publishedAt,
+      dateModified: post.updatedAt,
+      author: { "@id": `${siteUrl}/#organization` },
+    })),
+    inLanguage: "en-AE",
+  };
+}
+
+export function blogPostingJsonLd(post: {
+  title: string;
+  description: string;
+  slug: string;
+  keywords: string[];
+  publishedAt: string;
+  updatedAt: string;
+  author: string;
+}) {
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    headline: post.title,
+    description: post.description,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    author: {
+      "@type": "Organization",
+      name: post.author,
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/logo-wordmark.png"),
+      },
+    },
+    image: absoluteUrl(ogImage),
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    keywords: post.keywords.join(", "),
+    inLanguage: "en-AE",
   };
 }
 
@@ -345,6 +559,13 @@ export const pageSeo = {
     description: `Visit ${site.address}. Call ${site.phoneLandline}, WhatsApp ${site.phone}, or email ${site.email}. Free mortgage advice for UAE property buyers.`,
     path: "/contact",
     keywords: ["mortgage consultation Dubai", "contact mortgage broker UAE"],
+  }),
+  blog: buildPageMetadata({
+    title: "Mortgage Guides & Insights — Dubai & UAE Home Loans",
+    description:
+      "Expert articles on Dubai mortgage down payments, non-resident home loans, buyout & refinance — written by licensed UAE mortgage consultants at Money Matters.",
+    path: "/blog",
+    keywords: ["UAE mortgage blog", "Dubai home loan guides", "mortgage tips UAE"],
   }),
   privacy: buildPageMetadata({
     title: "Privacy Policy",

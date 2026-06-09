@@ -4,14 +4,21 @@ import { GallerySection } from "@/components/site/GallerySection";
 import { ServicesPreview } from "@/components/site/ServicesPreview";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ContactCTA } from "@/components/site/ContactCTA";
-import { site } from "@/lib/site-data";
-import { pageSeo } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { defaultDescription, pageSeo, webPageJsonLd } from "@/lib/seo";
 
 export const metadata = pageSeo.home;
 
 export default function HomePage() {
   return (
     <main>
+      <JsonLd
+        data={webPageJsonLd({
+          name: "Money Matters — Mortgage Broker Dubai & UAE",
+          path: "/",
+          description: defaultDescription,
+        })}
+      />
       <Hero />
       <BankMarquee label="Major Banking Partners" />
       <ServicesPreview />

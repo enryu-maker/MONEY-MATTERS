@@ -3,17 +3,20 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
-import { bankPartners, type PartnerLogoSize } from "@/lib/site-data";
-
-function partnerImageClass(partner: (typeof bankPartners)[number]) {
-  const size: PartnerLogoSize =
-    "logoSize" in partner && partner.logoSize ? partner.logoSize : "default";
-  if (size === "large") return "max-h-16 w-full object-contain md:max-h-[4.5rem]";
-  if (size === "small") return "max-h-9 w-full object-contain md:max-h-10";
-  return "max-h-12 w-full object-contain";
-}
+import { bankPartners, type BankPartner, type PartnerLogoSize } from "@/lib/site-data";
 import { Stagger, StaggerItem } from "./Stagger";
 import { spring } from "@/lib/motion";
+
+const partnerImageSizes: Record<PartnerLogoSize, string> = {
+  large: "max-h-16 w-full object-contain md:max-h-[4.5rem]",
+  default: "max-h-12 w-full object-contain",
+  small: "max-h-9 w-full object-contain md:max-h-10",
+};
+
+function partnerImageClass(partner: BankPartner) {
+  const size: PartnerLogoSize = partner.logoSize ?? "default";
+  return partnerImageSizes[size];
+}
 
 export function PartnersSection() {
   return (
