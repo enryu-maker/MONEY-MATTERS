@@ -3,7 +3,15 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
-import { bankPartners } from "@/lib/site-data";
+import { bankPartners, type PartnerLogoSize } from "@/lib/site-data";
+
+function partnerImageClass(partner: (typeof bankPartners)[number]) {
+  const size: PartnerLogoSize =
+    "logoSize" in partner && partner.logoSize ? partner.logoSize : "default";
+  if (size === "large") return "max-h-16 w-full object-contain md:max-h-[4.5rem]";
+  if (size === "small") return "max-h-9 w-full object-contain md:max-h-10";
+  return "max-h-12 w-full object-contain";
+}
 import { Stagger, StaggerItem } from "./Stagger";
 import { spring } from "@/lib/motion";
 
@@ -30,7 +38,7 @@ export function PartnersSection() {
                   alt={bank.name}
                   width={140}
                   height={56}
-                  className="max-h-12 w-full object-contain"
+                  className={partnerImageClass(bank)}
                 />
               </motion.div>
             </StaggerItem>

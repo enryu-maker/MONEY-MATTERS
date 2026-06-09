@@ -83,15 +83,17 @@ export const services = [
   },
 ] as const;
 
+export type PartnerLogoSize = "large" | "default" | "small";
+
 /** Logos from https://moneymatters.ae/ partner carousel */
 export const bankPartners = [
   // { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
   { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
-  { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png" },
-  { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg" },
+  { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png", logoSize: "large" },
+  { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg", logoSize: "large" },
   { name: "Ajman Bank", logo: "/partners/ajman.png" },
   { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
-  { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpg" },
+  { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpeg", logoSize: "large" },
   { name: "HSBC", logo: "/partners/HSBC.png" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
   { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },

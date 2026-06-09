@@ -2,43 +2,45 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { bankPartners } from "@/lib/site-data";
+import { bankPartners, type PartnerLogoSize } from "@/lib/site-data";
 import { AnimateIn } from "./AnimateIn";
 
-type LogoScale = "large" | "small" | "default";
+type LogoScale = PartnerLogoSize;
 
-function logoScale(name: string): LogoScale {
-  if (
-    name.includes("Mashreq") ||
-    name.includes("United Arab Bank") ||
-    name.includes("Commercial Bank of Dubai")
-  ) {
-    return "large";
-  }
-  if (
-    name.includes("Ajman") ||
-    name.includes("First Abu Dhabi") ||
-    name.includes("Bank of Baroda")
-  ) {
+function logoScaleByName(name: string): LogoScale {
+  if (name.includes("Mashreq")) return "large";
+  if (name.includes("Ajman") || name.includes("First Abu Dhabi") || name.includes("Bank of Baroda")) {
     return "small";
   }
   return "default";
 }
 
+function resolveLogoScale(partner: (typeof bankPartners)[number]): LogoScale {
+  return "logoSize" in partner && partner.logoSize ? partner.logoSize : logoScaleByName(partner.name);
+}
+
 const logoSizeClass: Record<LogoScale, string> = {
-  large: "h-16 w-auto max-w-[14rem] md:h-[5.25rem] md:max-w-[17rem]",
+  large: "h-[4.5rem] w-auto max-w-[16rem] md:h-[6rem] md:max-w-[19rem]",
   default: "h-14 w-auto max-w-[12rem] md:h-[4.5rem] md:max-w-[15rem]",
   small: "h-10 w-auto max-w-[9rem] md:h-12 md:max-w-[11rem]",
 };
 
-function PartnerLogo({ name, logo }: { name: string; logo: string }) {
-  const scale = logoScale(name);
+const logoSlotClass: Record<LogoScale, string> = {
+  large: "h-24 w-60 md:h-28 md:w-72",
+  default: "h-20 w-52 md:h-24 md:w-64",
+  small: "h-16 w-44 md:h-20 md:w-52",
+};
+
+function PartnerLogo({ partner }: { partner: (typeof bankPartners)[number] }) {
+  const scale = resolveLogoScale(partner);
 
   return (
-    <div className="flex h-20 w-52 shrink-0 items-center justify-center px-3 md:h-24 md:w-64">
+    <div
+      className={`flex shrink-0 items-center justify-center px-3 ${logoSlotClass[scale]}`}
+    >
       <Image
-        src={logo}
-        alt={name}
+        src={partner.logo}
+        alt={partner.name}
         width={280}
         height={112}
         className={`object-contain object-center ${logoSizeClass[scale]}`}
@@ -68,7 +70,7 @@ export function BankMarquee({ label }: { label?: string }) {
           className="flex w-max items-center gap-12 px-8 md:gap-14"
         >
           {items.map((bank, i) => (
-            <PartnerLogo key={`${bank.logo}-${i}`} name={bank.name} logo={bank.logo} />
+            <PartnerLogo key={`${bank.logo}-${i}`} partner={bank} />
           ))}
         </motion.div>
       </div>
