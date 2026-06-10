@@ -4,19 +4,65 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { team } from "@/lib/site-data";
+import { corporateAdvisors, team } from "@/lib/site-data";
 import { SectionHeader } from "./SectionHeader";
 import { Stagger, StaggerItem } from "./Stagger";
 import { cardHover, spring } from "@/lib/motion";
 import { AnimateIn } from "./AnimateIn";
 
-const leaders = team.slice(0, 2);
-const advisors = team.slice(2);
+const leaders = team.slice(0, 3);
+const advisors = team.slice(3);
+
+const TEAM_GRID = "grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6";
+
+type TeamMember = {
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+};
 
 type TeamSectionProps = {
   showAll?: boolean;
   showViewAll?: boolean;
 };
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mb-6 flex items-center justify-center gap-3 sm:mb-8 sm:justify-start">
+      <span className="h-px w-8 bg-primary/40 sm:w-12" aria-hidden />
+      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+        {children}
+      </span>
+      <span className="h-px w-8 max-w-[120px] flex-1 bg-primary/20 sm:max-w-none" aria-hidden />
+    </div>
+  );
+}
+
+function TeamGroup({
+  label,
+  members,
+  expanded,
+}: {
+  label: string;
+  members: readonly TeamMember[];
+  expanded: boolean;
+}) {
+  if (members.length === 0) return null;
+
+  return (
+    <div className="mx-auto max-w-5xl">
+      <SectionLabel>{label}</SectionLabel>
+      <Stagger className={TEAM_GRID} as="ul">
+        {members.map((member) => (
+          <StaggerItem key={member.name} as="li" className="h-full">
+            <TeamCard member={member} expanded={expanded} />
+          </StaggerItem>
+        ))}
+      </Stagger>
+    </div>
+  );
+}
 
 export function TeamSection({ showAll = false, showViewAll = false }: TeamSectionProps) {
   return (
@@ -29,43 +75,19 @@ export function TeamSection({ showAll = false, showViewAll = false }: TeamSectio
           center={!showAll}
         />
 
-        {/* Leadership */}
-        <div className="mx-auto mt-12 max-w-5xl">
-          <div className="mb-6 flex items-center justify-center gap-3 sm:justify-start">
-            <span className="h-px w-8 bg-primary/40 sm:w-12" aria-hidden />
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Leadership
-            </span>
-            <span className="h-px w-8 flex-1 max-w-[120px] bg-primary/20 sm:max-w-none" aria-hidden />
-          </div>
-
-          <Stagger className="grid gap-5 md:grid-cols-2 md:gap-6" as="ul">
-            {leaders.map((member) => (
-              <StaggerItem key={member.name} as="li" className="h-full">
-                <LeaderCard member={member} expanded={showAll} />
-              </StaggerItem>
-            ))}
-          </Stagger>
+        <div className="mt-12">
+          <TeamGroup label="Leadership" members={leaders} expanded={showAll} />
         </div>
 
-        {/* Specialists */}
-        {showAll && advisors.length > 0 && (
-          <div className="mx-auto mt-14 max-w-5xl md:mt-16">
-            <div className="mb-8 flex items-center justify-center gap-3 sm:justify-start">
-              <span className="h-px w-8 bg-primary/40 sm:w-12" aria-hidden />
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Mortgage specialists
-              </span>
-              <span className="h-px w-8 flex-1 max-w-[120px] bg-primary/20 sm:max-w-none" aria-hidden />
-            </div>
+        {showAll && (
+          <div className="mt-14 md:mt-16">
+            <TeamGroup label="Mortgage specialists" members={advisors} expanded={showAll} />
+          </div>
+        )}
 
-            <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6" as="ul">
-              {advisors.map((member) => (
-                <StaggerItem key={member.name} as="li" className="h-full">
-                  <AdvisorCard member={member} expanded={showAll} />
-                </StaggerItem>
-              ))}
-            </Stagger>
+        {showAll && corporateAdvisors.length > 0 && (
+          <div className="mt-14 md:mt-16">
+            <TeamGroup label="Corporate Advisors" members={corporateAdvisors} expanded={showAll} />
           </div>
         )}
 
@@ -87,49 +109,7 @@ export function TeamSection({ showAll = false, showViewAll = false }: TeamSectio
   );
 }
 
-type Member = (typeof team)[number];
-
-function LeaderCard({ member, expanded }: { member: Member; expanded: boolean }) {
-  return (
-    <motion.article
-      initial="rest"
-      whileHover="hover"
-      variants={cardHover}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border hairline bg-card shadow-[var(--shadow-soft)] sm:flex-row sm:items-stretch"
-    >
-      <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden bg-secondary sm:aspect-auto sm:h-full sm:w-40 md:w-44">
-        <Image
-          src={member.image}
-          alt={`${member.name} — ${member.role}`}
-          fill
-          className="object-cover object-[center_18%] grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0"
-          sizes="(max-width: 640px) 100vw, 176px"
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent sm:bg-linear-to-r sm:from-black/15"
-          aria-hidden
-        />
-      </div>
-
-      <div className="flex flex-1 flex-col justify-center px-5 py-5 text-center sm:px-6 sm:py-6 sm:text-left">
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-primary">
-          Leadership
-        </p>
-        <h3 className="mt-2 font-display text-xl font-semibold tracking-tight">{member.name}</h3>
-        <p className="mt-1 text-sm font-medium text-muted-foreground">{member.role}</p>
-        <p
-          className={`mt-3 text-sm leading-relaxed text-muted-foreground ${
-            expanded ? "" : "line-clamp-4"
-          }`}
-        >
-          {member.bio}
-        </p>
-      </div>
-    </motion.article>
-  );
-}
-
-function AdvisorCard({ member, expanded }: { member: Member; expanded: boolean }) {
+function TeamCard({ member, expanded }: { member: TeamMember; expanded: boolean }) {
   return (
     <motion.article
       initial="rest"

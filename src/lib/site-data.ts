@@ -94,18 +94,18 @@ export type BankPartner = {
 /** Logos from https://moneymatters.ae/ partner carousel */
 export const bankPartners: BankPartner[] = [
   // { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
-  // { name: "Mashreq Bank", logo: "/partners/mashreq.png" },
-  { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png", logoSize: "large" },
-  { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg", logoSize: "large" },
+  { name: "Abu Dhabi Islamic Bank", logo: "/partners/dubai-islamic.png" },
   { name: "Ajman Bank", logo: "/partners/ajman.png" },
-  { name: "Dubai Islamic Bank", logo: "/partners/dubai-islamic.png" },
-  { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpeg", logoSize: "large" },
-  { name: "HSBC", logo: "/partners/HSBC.png" },
+  { name: "Arab Bank", logo: "/partners/arab-bank-20260602.png" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
+  { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg", logoSize: "large" },
+  { name: "Dubai Islamic Bank", logo: "/partners/Dubai_Islamic_Bank.png", logoSize: "large" },
   { name: "First Abu Dhabi Bank", logo: "/partners/fab.png" },
+  { name: "HSBC", logo: "/partners/HSBC.png" },
+  { name: "Emirates NBD", logo: "/partners/emirates-nbd.jpeg", logoSize: "large" },
+  { name: "United Arab Bank", logo: "/partners/united-arab-bank-20260602.png"},
   // { name: "Emirates Islamic", logo: "/partners/emirates-islamic-20260602.png" },
   // { name: "Sharjah Islamic Bank", logo: "/partners/sharjah-islamic-20260602.png" },
-  { name: "Arab Bank", logo: "/partners/arab-bank-20260602.png" },
   // { name: "National Bank of Oman", logo: "/partners/nbo-20260602.png" },
   // { name: "Saudi National Bank", logo: "/partners/snb-20260602.png" },
   // { name: "Abu Dhabi Commercial Bank (ADCB)", logo: "/partners/adcb.jpg" },
@@ -136,6 +136,12 @@ export const team = [
     image: "/team/mala.jpg",
     bio: "Mala brings banking experience since 2000, corporate law expertise, and an MBA. She ensures every transaction meets compliance while guiding clients with empathy from inception through completion.",
   },
+  {
+    name: "Alok Pant",
+    role: "Executive Director - Corporate Advisory",
+    image: "/team/alok-pant.png",
+    bio: "Over 37 years of experience, including 30+ years in corporate banking and 6 years in corporate advisory. Expertise in structured finance, risk management, treasury solutions, and strategic business advisory across the UAE.",
+  },
   // {
   //   name: "Sandip Banerjee",
   //   role: "Assistant Manager",
@@ -159,8 +165,17 @@ export const team = [
     role: "Admin Officer",
     image: "/team/rekha.jpeg",
     bio: "Results-oriented Administrative Officer with experience in Banking operations. Skilled in executive support, process coordination, customer service, and maintaining efficient day-to-day operations in fast-paced professional environments.",
-  }, 
+  },
 ] as const;
+
+export type CorporateAdvisor = {
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+};
+
+export const corporateAdvisors: CorporateAdvisor[] = [];
 
 export const testimonials = [
   {
