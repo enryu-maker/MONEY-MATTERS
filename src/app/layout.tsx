@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Urbanist } from "next/font/google";
+import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { globalJsonLdGraph, rootMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -42,6 +43,7 @@ export default function RootLayout({
       className={`h-full antialiased ${inter.variable} ${urbanist.variable}`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
+        <GoogleAnalytics />
         <JsonLd data={globalJsonLdGraph()} />
         {children}
       </body>
