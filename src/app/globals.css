@@ -220,3 +220,31 @@ h4 {
     margin-top: 1.25rem;
   }
 }
+
+@keyframes contact-hint-nudge {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+}
+
+.contact-hint-nudge {
+  animation: contact-hint-nudge 1.6s ease-in-out infinite;
+}
+
+@media (min-width: 48rem) {
+  .contact-hint-nudge {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-hint-nudge {
+    animation: none;
+  }
+}

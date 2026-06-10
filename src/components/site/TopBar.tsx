@@ -22,12 +22,17 @@ export function TopBar() {
             {site.email}
           </a>
         </div>
-        <p className="inline-flex items-center gap-1.5 text-primary-foreground/80">
+        <a
+          href={site.addressUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-primary-foreground/80 transition-all hover:text-primary-foreground hover:underline hover:underline-offset-2 active:opacity-70"
+        >
           <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
           <span className="truncate">
             {site.address} · {site.poBox}
           </span>
-        </p>
+        </a>
       </div>
     </div>
   );

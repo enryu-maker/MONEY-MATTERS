@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { MessageCircle, Phone } from "lucide-react";
+import { ExternalLink, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { aboutNav, site } from "@/lib/site-data";
+
+const contactLinkClass =
+  "group -mx-2 inline-flex min-h-9 w-full max-w-xs cursor-pointer items-center gap-2 rounded-lg border border-transparent px-2 py-1.5 font-medium text-foreground transition-all duration-200 hover:border-primary/20 hover:bg-primary/5 hover:text-primary active:scale-[0.98] active:bg-primary/10";
+
+const contactAddressClass =
+  "group -mx-2 flex w-full max-w-xs cursor-pointer flex-col gap-1 rounded-lg border border-transparent px-2 py-1.5 transition-all duration-200 hover:border-primary/20 hover:bg-primary/5 hover:text-primary active:scale-[0.98] active:bg-primary/10";
 
 const navigateLinks = [
   { label: "Home", href: "/" },
@@ -31,14 +37,14 @@ export function Footer() {
                 href={`https://wa.me/${site.phoneWhatsAppTel.replace("+", "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-medium text-white sm:w-auto sm:justify-start"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-medium text-white transition-transform hover:brightness-110 active:scale-[0.98] sm:w-auto sm:justify-start"
               >
                 <MessageCircle className="h-4 w-4 shrink-0" />
                 WhatsApp
               </a>
               <a
                 href={`tel:${site.phoneLandlineTel}`}
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border hairline bg-card px-5 py-2.5 text-sm font-medium sm:w-auto sm:justify-start"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border hairline bg-card px-5 py-2.5 text-sm font-medium transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary active:scale-[0.98] sm:w-auto sm:justify-start"
               >
                 <Phone className="h-4 w-4 shrink-0 text-primary" />
                 {site.phoneLandline}
@@ -90,26 +96,42 @@ export function Footer() {
               <p className="text-xs font-semibold uppercase tracking-widest text-foreground">
                 Contact
               </p>
-              <ul className="mt-3 space-y-2.5 text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:space-y-3">
-                <li className="break-words sm:max-w-xs">
-                  {site.address}
-                  <br />
-                  {site.poBox}
-                </li>
-                <li>
+              <ul className="mt-3 space-y-1 text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:space-y-1.5">
+                <li className="break-words">
                   <a
-                    href={`tel:${site.phoneLandlineTel}`}
-                    className="inline-flex min-h-9 items-center font-medium text-foreground hover:text-primary"
+                    href={site.addressUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={contactAddressClass}
                   >
-                    {site.phoneLandline}
+                    <span className="inline-flex items-start gap-2">
+                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary opacity-70 transition-opacity group-hover:opacity-100" />
+                      <span className="leading-relaxed group-hover:underline group-hover:underline-offset-2">
+                        {site.address}
+                        <br />
+                        {site.poBox}
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 pl-6 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                      Open in Maps
+                      <ExternalLink className="h-3 w-3" />
+                    </span>
                   </a>
                 </li>
                 <li>
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="inline-flex min-h-9 items-center break-all font-medium text-foreground hover:text-primary"
-                  >
-                    {site.email}
+                  <a href={`tel:${site.phoneLandlineTel}`} className={contactLinkClass}>
+                    <Phone className="h-4 w-4 shrink-0 text-primary opacity-70 transition-opacity group-hover:opacity-100" />
+                    <span className="group-hover:underline group-hover:underline-offset-2">
+                      {site.phoneLandline}
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`mailto:${site.email}`} className={`${contactLinkClass} break-all`}>
+                    <Mail className="h-4 w-4 shrink-0 text-primary opacity-70 transition-opacity group-hover:opacity-100" />
+                    <span className="group-hover:underline group-hover:underline-offset-2">
+                      {site.email}
+                    </span>
                   </a>
                 </li>
               </ul>

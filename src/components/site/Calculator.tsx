@@ -186,6 +186,8 @@ function buildSchedule(loan: number, annualRate: number, months: number): Paymen
 }
 
 const TENURE_MAX_MONTHS = 300;
+/** Applied only when property value changes — manual down payment stays 0–100% */
+const DEFAULT_DOWN_PAYMENT_PCT = 20;
 
 function clampDownPaymentPct(pct: number) {
   return Math.min(100, Math.max(0, Math.round(pct * 100) / 100));
@@ -215,7 +217,8 @@ export function Calculator() {
 
   const setPriceAndSync = useCallback((next: number) => {
     setPrice(next);
-    setLoanAmount((loan) => Math.min(maxLoanAmount(next), Math.max(0, loan)));
+    const dp = Math.round((next * DEFAULT_DOWN_PAYMENT_PCT) / 100);
+    setLoanAmount(Math.max(0, next - dp));
   }, []);
 
   const setDownPctAndSync = useCallback(
