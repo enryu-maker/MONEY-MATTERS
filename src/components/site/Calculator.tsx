@@ -389,7 +389,7 @@ export function Calculator() {
                 <ResultRow label="Total interest" value={hasSchedule ? AED(totalInt) : "—"} />
                 <ResultRow label="Total payable" value={hasSchedule ? AED(totalPay) : "—"} bold />
               </dl>
-
+              
               <div className="mt-7 rounded-2xl border border-primary-foreground/20 bg-primary-foreground/10 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">
                   Other affiliated cost for resale transaction
@@ -409,6 +409,11 @@ export function Calculator() {
                     value={hasSchedule ? AED(resaleCosts.trusteeTotal) : "—"}
                   />
                   <ResultRow label="Total" value={hasSchedule ? AED(resaleCosts.total) : "—"} bold />
+                  <div className="mt-7">
+                <p className="text-xs font-medium text-primary-foreground/80">
+                Disclaimer: EMI, Amortization schedule, and DLD charges shown are tentative estimates only and subject to final confirmation by the bank and DLD.
+                </p>
+              </div>
                 </dl>
               </div>
 
