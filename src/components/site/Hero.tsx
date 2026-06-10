@@ -1,14 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import hero from "@/assets/hero-dubai.jpg";
+import hero from "@/assets/hero-dubai.png";
 import { about, site } from "@/lib/site-data";
 
 const heroStats = [
   { kind: "uae" as const, label: `Since ${site.founded}` },
   { kind: "stacked" as const, lines: ["RERA", "Certified"], sub: "Mortgage Broker" },
   { kind: "stacked" as const, lines: ["DREI"], sub: "Affiliated" },
-  { kind: "metric" as const, value: "50+ yrs", label: "Collective experience" },
+  { kind: "metric" as const, value: "90+ yrs", label: "Collective experience" },
   { kind: "metric" as const, value: "3K+", label: "Satisfied clients" },
   { kind: "metric" as const, value: "3.5 Bn+", label: "Loan approved" },
 ] as const;
@@ -41,6 +42,26 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto flex min-h-[calc(88svh-5rem)] max-w-7xl flex-col justify-between px-4 py-16 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.12 }}
+          className="pointer-events-none absolute right-4 top-0 z-10 hidden sm:block md:right-6"
+        >
+          <div className="rounded-xl  px-3 py-2.5  md:px-4 md:py-3">
+            <Image
+              src="/logo-white.png"
+              alt={`${site.name} — ${site.tagline}`}
+              width={500}
+              height={400}
+              quality={100}
+              unoptimized
+              className="h-auto w-24 object-contain md:w-36 lg:w-50"
+              priority
+            />
+          </div>
+        </motion.div>
+
         <div className="flex flex-col justify-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}

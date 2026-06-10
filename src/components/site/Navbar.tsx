@@ -165,14 +165,9 @@ export function Navbar({ open, onOpenChange }: NavbarProps) {
               : "border-b hairline bg-background px-4 py-3 md:px-6",
           )}
         >
-          <motion.div
-            className="relative z-10 shrink-0"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={spring}
-          >
+          <div className="relative z-10 shrink-0 overflow-visible">
             <Logo />
-          </motion.div>
+          </div>
 
           <nav
             className="hidden items-center gap-1 rounded-full border hairline bg-muted/50 p-1 lg:flex"

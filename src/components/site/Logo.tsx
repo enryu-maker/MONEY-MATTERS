@@ -9,14 +9,15 @@ type LogoProps = {
 const sizes = {
   header: {
     src: "/logo-wordmark.png",
-    width: 220,
-    height: 72,
-    className: "h-9 w-auto max-w-[10.5rem] sm:max-w-[11.5rem] md:h-10 md:max-w-[13rem]",
+    width: 480,
+    height: 120,
+    className:
+      "block h-10 w-auto max-w-[11.5rem] object-contain object-center sm:max-w-[12.5rem] md:h-11 md:max-w-[14rem]",
   },
   footer: {
     src: "/logo-full.png",
-    width: 200,
-    height: 140,
+    width: 400,
+    height: 280,
     className: "h-14 w-auto max-w-[10rem] object-contain object-left sm:max-w-[11rem]",
   },
 } as const;
@@ -27,7 +28,7 @@ export function Logo({ className = "", size = "header" }: LogoProps) {
   return (
     <Link
       href="/"
-      className={`inline-flex shrink-0 items-center ${className}`}
+      className={`inline-flex shrink-0 items-center overflow-visible py-1 ${className}`}
       aria-label="Money Matters — Home"
     >
       <Image
@@ -35,9 +36,11 @@ export function Logo({ className = "", size = "header" }: LogoProps) {
         alt=""
         width={width}
         height={height}
+        quality={100}
         className={sizeClass}
         priority={size === "header"}
         loading="eager"
+        unoptimized
       />
     </Link>
   );
