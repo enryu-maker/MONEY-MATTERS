@@ -97,7 +97,7 @@ export const bankPartners: BankPartner[] = [
   // { name: "Abu Dhabi Islamic Bank (ADIB)", logo: "/partners/adib.jpg" },
   { name: "Abu Dhabi Islamic Bank", logo: "/partners/dubai-islamic.png" },
   { name: "Ajman Bank", logo: "/partners/ajman.png" },
-  { name: "Arab Bank", logo: "/partners/arab-bank-20260602.png" },
+  { name: "Arab Bank", logo: "/partners/arab-bank-20260602.jpeg" },
   { name: "Standard Chartered", logo: "/partners/standard-chartered.png" },
   { name: "Commercial Bank of Dubai", logo: "/partners/CBD_Logo.jpg", logoSize: "large" },
   { name: "Dubai Islamic Bank", logo: "/partners/Dubai_Islamic_Bank.png", logoSize: "large" },

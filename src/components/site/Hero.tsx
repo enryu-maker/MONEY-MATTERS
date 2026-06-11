@@ -42,13 +42,13 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto flex min-h-[calc(88svh-5rem)] max-w-7xl flex-col justify-between px-4 py-16 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.12 }}
-          className="pointer-events-none absolute right-4 top-0 z-10 hidden sm:block md:right-6"
-        >
-          <div className="rounded-xl  px-3 py-2.5  md:px-4 md:py-3">
+        <div className="flex flex-col justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="pointer-events-none mx-auto mb-6 w-fit sm:absolute sm:right-4 sm:top-0 sm:z-10 sm:mx-0 sm:mb-0 md:right-6"
+          >
             <Image
               src="/logo-white.png"
               alt={`${site.name} — ${site.tagline}`}
@@ -56,13 +56,10 @@ export function Hero() {
               height={400}
               quality={100}
               unoptimized
-              className="h-auto w-24 object-contain md:w-36 lg:w-50"
+              className="h-auto w-44 object-contain sm:w-24 md:w-36 lg:w-44"
               priority
             />
-          </div>
-        </motion.div>
-
-        <div className="flex flex-col justify-center">
+          </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
