@@ -6,7 +6,7 @@ import { site } from "@/lib/site-data";
 import { AnimateIn } from "./AnimateIn";
 import { spring } from "@/lib/motion";
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvzyewry";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/maqzpzwk";
 const MIN_MONTHLY_INCOME = 10000;
 
 function validateMonthlyIncome(value: string): string {
