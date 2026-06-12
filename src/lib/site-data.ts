@@ -7,7 +7,7 @@ export const site = {
   phoneWhatsAppTel: "+971508580600",
   phoneLandline: "+971 4 585 0565",
   phoneLandlineTel: "+97145850565",
-  email: "info@moneymatters.ae",
+  email: "enquiry@moneymatters.ae",
   address: "1009, Tamani Art Office Tower, Business Bay, Dubai",
   addressUrl: "https://maps.app.goo.gl/RR77Rh7mNXWDwtk26",
   poBox: "P.O. Box 120380",
