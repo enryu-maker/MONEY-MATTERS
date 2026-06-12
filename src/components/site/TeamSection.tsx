@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -43,10 +44,14 @@ function TeamGroup({
   label,
   members,
   expanded,
+  activeMember,
+  onActivate,
 }: {
   label: string;
   members: readonly TeamMember[];
   expanded: boolean;
+  activeMember: string | null;
+  onActivate: (name: string) => void;
 }) {
   if (members.length === 0) return null;
 
@@ -56,7 +61,12 @@ function TeamGroup({
       <Stagger className={TEAM_GRID} as="ul">
         {members.map((member) => (
           <StaggerItem key={member.name} as="li" className="h-full">
-            <TeamCard member={member} expanded={expanded} />
+            <TeamCard
+              member={member}
+              expanded={expanded}
+              isActive={activeMember === member.name}
+              onActivate={onActivate}
+            />
           </StaggerItem>
         ))}
       </Stagger>
@@ -65,6 +75,12 @@ function TeamGroup({
 }
 
 export function TeamSection({ showAll = false, showViewAll = false }: TeamSectionProps) {
+  const [activeMember, setActiveMember] = useState<string | null>(null);
+
+  const handleActivate = (name: string) => {
+    setActiveMember((current) => (current === name ? null : name));
+  };
+
   return (
     <section className="section-pad section-bone">
       <div className="section-container">
@@ -76,18 +92,36 @@ export function TeamSection({ showAll = false, showViewAll = false }: TeamSectio
         />
 
         <div className="mt-12">
-          <TeamGroup label="Leadership" members={leaders} expanded={showAll} />
+          <TeamGroup
+            label="Leadership"
+            members={leaders}
+            expanded={showAll}
+            activeMember={activeMember}
+            onActivate={handleActivate}
+          />
         </div>
 
         {showAll && (
           <div className="mt-14 md:mt-16">
-            <TeamGroup label="Mortgage specialists" members={advisors} expanded={showAll} />
+            <TeamGroup
+              label="Mortgage specialists"
+              members={advisors}
+              expanded={showAll}
+              activeMember={activeMember}
+              onActivate={handleActivate}
+            />
           </div>
         )}
 
         {showAll && corporateAdvisors.length > 0 && (
           <div className="mt-14 md:mt-16">
-            <TeamGroup label="Corporate Advisors" members={corporateAdvisors} expanded={showAll} />
+            <TeamGroup
+              label="Corporate Advisors"
+              members={corporateAdvisors}
+              expanded={showAll}
+              activeMember={activeMember}
+              onActivate={handleActivate}
+            />
           </div>
         )}
 
@@ -109,20 +143,42 @@ export function TeamSection({ showAll = false, showViewAll = false }: TeamSectio
   );
 }
 
-function TeamCard({ member, expanded }: { member: TeamMember; expanded: boolean }) {
+function TeamCard({
+  member,
+  expanded,
+  isActive,
+  onActivate,
+}: {
+  member: TeamMember;
+  expanded: boolean;
+  isActive: boolean;
+  onActivate: (name: string) => void;
+}) {
   return (
-    <motion.article
+    <motion.button
+      type="button"
       initial="rest"
       whileHover="hover"
       variants={cardHover}
-      className="group flex h-full flex-col items-center rounded-2xl border hairline bg-card px-5 pb-6 pt-8 text-center shadow-[var(--shadow-soft)]"
+      onClick={() => onActivate(member.name)}
+      aria-pressed={isActive}
+      aria-label={`${isActive ? "Hide" : "Show"} color photo of ${member.name}`}
+      className={`group flex h-full w-full cursor-pointer touch-manipulation flex-col items-center rounded-2xl border hairline bg-card px-5 pb-6 pt-8 text-center shadow-[var(--shadow-soft)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:cursor-default ${
+        isActive ? "max-md:border-primary/30 max-md:bg-primary/[0.04]" : ""
+      }`}
     >
-      <div className="relative h-28 w-28 overflow-hidden rounded-full border-[3px] border-background shadow-[var(--shadow-soft)] ring-2 ring-primary/15">
+      <div
+        className={`relative h-28 w-28 overflow-hidden rounded-full border-[3px] border-background shadow-[var(--shadow-soft)] ring-2 transition duration-500 ${
+          isActive ? "max-md:ring-primary/40" : "ring-primary/15"
+        } group-hover:ring-primary/40`}
+      >
         <Image
           src={member.image}
           alt={`${member.name} — ${member.role}`}
           fill
-          className="object-cover object-[center_18%] grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0"
+          className={`object-cover object-[center_18%] grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0 ${
+            isActive ? "max-md:scale-105 max-md:grayscale-0" : ""
+          }`}
           sizes="112px"
         />
       </div>
@@ -137,6 +193,6 @@ function TeamCard({ member, expanded }: { member: TeamMember; expanded: boolean 
       >
         {member.bio}
       </p>
-    </motion.article>
+    </motion.button>
   );
 }
