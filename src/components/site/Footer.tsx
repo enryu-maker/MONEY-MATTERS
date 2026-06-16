@@ -63,9 +63,8 @@ export function Footer() {
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className={`inline-flex min-h-9 items-center text-sm hover:text-primary ${
-                        l.href === "/" ? "font-medium text-foreground" : "text-muted-foreground"
-                      }`}
+                      className={`inline-flex min-h-9 items-center text-sm hover:text-primary ${l.href === "/" ? "font-medium text-foreground" : "text-muted-foreground"
+                        }`}
                     >
                       {l.label}
                     </Link>
@@ -144,17 +143,6 @@ export function Footer() {
           <div className="space-y-1.5 text-center sm:space-y-2 md:text-left">
             <p className="leading-relaxed" suppressHydrationWarning>
               © {new Date().getFullYear()} {site.name} Mortgage Brokers · All rights reserved
-            </p>
-            <p className="leading-relaxed">
-              Made with ❤️ by{" "}
-              <a
-                href="https://nerdtech.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-foreground hover:text-primary"
-              >
-                nerdtech
-              </a>
             </p>
           </div>
           <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-x-5 md:justify-end">
